@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { LoginService, UserLogin } from '../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,7 @@ export class LoginComponent {
 
   error: string = ''
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService, private router: Router) {}
 
   onSubmit() {
     if (this.createForm.valid) {
@@ -39,6 +40,7 @@ export class LoginComponent {
 
         if (matchingCredentials) {
           sessionStorage.setItem('tokenUser', JSON.stringify(token));
+          this.router.navigate(['/main'])
         } else {
           this.error = ('Incorrect email or password');
           setTimeout(() => {
