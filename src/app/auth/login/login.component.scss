@@ -19,6 +19,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    text-align: center;
     text-transform: capitalize;
   }
 }
@@ -30,10 +31,6 @@ form {
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.8);
   padding: 61px 83px 74px;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
 }
 .form-field {
   position: relative;
@@ -63,12 +60,20 @@ form {
     background: #fff;
     padding: 16px 18px;
     font-size: 18px;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .up {
     top: 18% !important;
     font-size: 12px;
     color: #333;
+  }
+
+  .invalid {
+    color: red !important;
   }
 
   .btn {
@@ -93,4 +98,22 @@ form {
     transform: translateY(-50%);
     cursor: pointer;
   }
+}
+.help-block {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 20px;
+  display: inline-block;
+  text-align: left;
+
+  span {
+    font-size: 10px;
+    display: block;
+  }
+}
+.ng-invalid.ng-touched {
+  border-color: red !important;
+}
+.ng-valid.ng-touched.ng-dirty {
+  border-color: #7a7a7a !important;
 }

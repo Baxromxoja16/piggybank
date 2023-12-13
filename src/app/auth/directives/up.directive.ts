@@ -7,15 +7,19 @@ import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 export class UpDirective {
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
+  labelELement = this.el.nativeElement.parentNode.children[0];
+
+  inputClassList = this.el.nativeElement.parentNode.children[1].classList;
+
   @HostListener('focus', ['$event.target'])
   onFocus(target: HTMLElement): void {
-    this.el.nativeElement.parentNode.children[0].classList.add('up');
+    this.labelELement.classList.add('up');
   }
 
   @HostListener('blur', ['$event.target'])
   onBlur(target: HTMLInputElement): void {
     if (!target.value) {
-      this.el.nativeElement.parentNode.children[0].classList.remove('up');
+      this.labelELement.classList.remove('up');
     }
   }
 }
