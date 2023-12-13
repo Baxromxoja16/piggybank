@@ -85,4 +85,12 @@ form {
     outline: none;
     border: none;
   }
+
+  .eye {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
 }
