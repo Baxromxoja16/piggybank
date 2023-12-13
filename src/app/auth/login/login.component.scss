@@ -31,6 +31,26 @@ form {
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.8);
   padding: 61px 83px 74px;
+
+  .incorrect-field {
+    width: 100%;
+    text-align: center;
+    padding: 15px 10px;
+    background-color: #FF69B4;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p {
+      margin: 0;
+      font-size: 16px;
+    }
+    span {
+      cursor: pointer;
+      font-size: 30px;
+    }
+  }
 }
 .form-field {
   position: relative;

@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { UpDirective } from '../directives/up.directive';
 import { PasswordToggleDirective } from '../directives/password-toggle.directive';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { LoginService, UserLogin } from '../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -16,13 +19,39 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class LoginComponent {
   createForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.email, Validators.required]),
-    password: new FormControl(null, [Validators.required])
-  })
+    password: new FormControl(null, [Validators.required]),
+  });
 
+  error: string = ''
+
+  constructor(private loginService: LoginService) {}
 
   onSubmit() {
-    console.log(this.createForm.value);
-    
+    if (this.createForm.valid) {
+      const enteredCredentials: UserLogin = this.createForm.value;
+
+      this.loginService.login(enteredCredentials).subscribe((testCredentials) => {
+        const matchingCredentials = testCredentials.find(
+          (cred) =>
+            cred.email === enteredCredentials.email &&
+            cred.password === enteredCredentials.password
+        );
+
+        if (matchingCredentials) {
+          console.log('Login successful');
+          // Call your further logic for successful login
+        } else {
+          this.error = ('Incorrect email or password');
+          setTimeout(() => {
+            this.error = ''
+          }, 4000);
+          // Handle incorrect credentials, e.g., show an error message
+        }
+      });
+    }
   }
-  
+
+  close() {
+    this.error = ''
+  }
 }
