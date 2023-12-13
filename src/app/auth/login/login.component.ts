@@ -30,16 +30,15 @@ export class LoginComponent {
     if (this.createForm.valid) {
       const enteredCredentials: UserLogin = this.createForm.value;
 
-      this.loginService.login(enteredCredentials).subscribe((testCredentials) => {
-        const matchingCredentials = testCredentials.find(
+      this.loginService.login(enteredCredentials).subscribe((token) => {
+        const matchingCredentials = token.find(
           (cred) =>
             cred.email === enteredCredentials.email &&
             cred.password === enteredCredentials.password
         );
 
         if (matchingCredentials) {
-          console.log('Login successful');
-          // Call your further logic for successful login
+          sessionStorage.setItem('tokenUser', JSON.stringify(token));
         } else {
           this.error = ('Incorrect email or password');
           setTimeout(() => {
