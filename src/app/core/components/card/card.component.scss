@@ -34,6 +34,7 @@
       box-shadow: 5px 10px 20px 0px rgba(0, 0, 0, 0.25);
       padding: 21px 19px 20px 23px;
       position: relative;
+      cursor: pointer;
     }
 
     h3 {
@@ -63,4 +64,8 @@
       font-size: 64px;
     }
   }
+}
+
+.disabled {
+  opacity: .3;
 }
