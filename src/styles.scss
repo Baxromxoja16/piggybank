@@ -24,3 +24,23 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+.circle {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.light-blue {
+  background: #B9E2E6 !important;
+  color: #B9E2E6;
+}
+
+.white {
+  background-color: #fff;
+  color: #fff;
+}

@@ -1,5 +1,61 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 235px;
+  gap: 7px;
+  text-align: right;
+
+  .account-name {
+    color: #373737;
+    font-family: Space Grotesk;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin: 0;
+  }
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.settings-cards, .settings-bottom {
+  margin-top: 50px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    height: 49px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    padding: 6px 11px 8px;
+
+    span {
+      color: #86c9cf;
+      font-size: 40px;
+    }
+    p {
+      color: #373737;
+      font-family: Space Grotesk;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+
+      margin: 0;
+    }
+  }
+}
+
+.settings-bottom {
+  margin-top: 200px;
 }
