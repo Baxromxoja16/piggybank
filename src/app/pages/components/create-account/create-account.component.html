@@ -1,0 +1,55 @@
+<div class="create-account">
+  <form [formGroup]="createForm" (submit)="onSubmit()">
+    <div class="form-header">
+      <h2>Create Account</h2>
+      <img
+        src="../../../../assets/images/OOjs_UI_icon_close-ltr 1.png"
+        alt=""
+        class="close"
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="title" class="label">Title</label>
+      <input
+        type="title"
+        formControlName="title"
+        id="title"
+        appUp
+        class="input"
+      />
+    </div>
+    <div class="form-field">
+      <label for="currency" class="label">Currency</label>
+      <input
+        type="currency"
+        formControlName="currency"
+        id="currency"
+        appUp
+        class="input"
+      />
+    </div>
+    <div class="form-field">
+      <label for="description" class="label">Currency</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="input"
+        rows="5"
+        appUp
+      ></textarea>
+    </div>
+    <div class="form-field">
+      <input
+        type="submit"
+        [disabled]="createForm.invalid"
+        class="btn"
+        value="Save"
+      />
+    </div>
+    <div class="form-field">
+      <input type="button" class="btn btn-cancel" value="Cancel" />
+    </div>
+  </form>
+</div>
+<div class="black-bg"></div>

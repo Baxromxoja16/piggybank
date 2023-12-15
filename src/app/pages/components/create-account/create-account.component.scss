@@ -1,0 +1,39 @@
+* {
+  font-family: Space Grotesk;
+}
+
+.create-account {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 20px 25px;
+  width: 624.999px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #f9f9f9;
+  z-index: 3;
+
+  .form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0;
+      color: #373737;
+      font-size: 32px;
+    }
+
+    img {
+      cursor: pointer;
+    }
+  }
+
+  textarea {
+    resize: none;
+  }
+}
