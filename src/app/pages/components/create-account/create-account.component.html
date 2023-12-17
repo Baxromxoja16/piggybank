@@ -19,15 +19,23 @@
         class="input"
       />
     </div>
+    @if( createForm.controls['title'].errors?.['required'] &&
+    createForm.get('title')?.touched ) {
+
+    <span class="help-block">Required file is empty</span>
+
+    } @else if(createForm.controls['title'].errors?.['pattern'] &&
+    createForm.get('title')?.touched ){
+
+    <span class="help-block">Please enter a valid Title</span>
+
+    }
     <div class="form-field">
-      <label for="currency" class="label">Currency</label>
-      <input
-        type="currency"
-        formControlName="currency"
-        id="currency"
-        appUp
-        class="input"
-      />
+      <select name="currency" formControlName="currency" id="currency" class="input">
+        @for(currency of currencies; track currency) {
+        <option [value]="currency">{{ currency }}</option>
+        }
+      </select>
     </div>
     <div class="form-field">
       <label for="description" class="label">Currency</label>
@@ -35,6 +43,7 @@
         id="description"
         formControlName="description"
         class="input"
+        maxlength="256"
         rows="5"
         appUp
       ></textarea>

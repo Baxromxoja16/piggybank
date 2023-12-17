@@ -15,12 +15,20 @@
   background: #f9f9f9;
   z-index: 3;
 
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-field {
+    margin: 0;
+  }
+
   .form-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    margin-bottom: 20px;
 
     h2 {
       margin: 0;

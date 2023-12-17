@@ -126,5 +126,24 @@ body {
 }
 
 .inactive {
-  opacity: .3;
+  opacity: 0.3;
+}
+
+.help-block {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 20px;
+  display: inline-block;
+  text-align: left;
+
+  span {
+    font-size: 10px;
+    display: block;
+  }
+}
+.ng-invalid.ng-touched {
+  border-color: red !important;
+}
+.ng-valid.ng-touched.ng-dirty {
+  border-color: #7a7a7a !important;
 }
