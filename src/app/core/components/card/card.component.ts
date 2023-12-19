@@ -1,5 +1,6 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CreateAccountComponent } from '../../../pages/components/create-account/create-account.component';
+import { Account, AccountService } from '../../../pages/services/account.service';
 
 @Component({
   selector: 'app-card',
@@ -8,8 +9,17 @@ import { CreateAccountComponent } from '../../../pages/components/create-account
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
-export class CardComponent {
+export class CardComponent implements OnInit{
   open: boolean = false;
+  accounts: Account[] = []; 
+
+  constructor(private accountService: AccountService) {}
+
+  ngOnInit(): void {
+    this.accountService.getAccounts().subscribe(data => {
+      this.accounts = data;
+    })
+  }
 
   openCreateAccountPopup() {
     this.open = true;
