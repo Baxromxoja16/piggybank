@@ -10,6 +10,7 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AccountService } from '../../services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
@@ -47,9 +48,10 @@ export class CreateAccountComponent {
     ]),
   });
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private router: Router) {}
 
   onSubmit() {
     this.accountService.addAccount(this.createForm.value);
+    this.createForm.reset()
   }
 }

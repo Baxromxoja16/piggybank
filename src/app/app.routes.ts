@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { MainComponent } from './pages/main/main.component';
 import { authGuard } from './auth/guards/auth.guard';
+import { CreateAccountComponent } from './pages/components/create-account/create-account.component';
 
 export const routes: Routes = [
   {
@@ -10,5 +11,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   { path: 'auth', component: LoginComponent },
-  { path: 'main', canActivate: [authGuard], component: MainComponent },
+  { path: 'main', canActivate: [authGuard], component: MainComponent, children: [
+    { path: 'create-account', component: CreateAccountComponent}
+  ] },
 ];
