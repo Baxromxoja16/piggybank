@@ -31,9 +31,30 @@
 
     }
     <div class="form-field">
+      <label for="balance" class="label">Balance</label>
+      <input
+        type="number"
+        formControlName="balance"
+        id="balance"
+        appUp
+        class="input"
+      />
+    </div>
+    @if( createForm.controls['balance'].errors?.['required'] &&
+    createForm.get('balance')?.touched ) {
+
+    <span class="help-block">Required file is empty</span>
+
+    } @else if(createForm.controls['balance'].errors?.['pattern'] &&
+    createForm.get('balance')?.touched ){
+
+    <span class="help-block">Please enter a valid Balance</span>
+
+    }
+    <div class="form-field">
       <select name="currency" formControlName="currency" id="currency" class="input">
-        @for(currency of currencies; track currency) {
-        <option [value]="currency">{{ currency }}</option>
+        @for(currency of currencies; track currency.name) {
+        <option [ngValue]="currency">{{ currency.name + currency.symbol }}</option>
         }
       </select>
     </div>
