@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UpDirective } from '../directives/up.directive';
 import { PasswordToggleDirective } from '../directives/password-toggle.directive';
 import {
@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { LoginService, UserLogin } from '../services/login.service';
 import { Router } from '@angular/router';
+import { Subscription, map, startWith, switchMap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +18,14 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
+  subscription: Subscription = new Subscription();
   createForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.email, Validators.required]),
     password: new FormControl(null, [Validators.required]),
   });
 
-  error: string = ''
+  error: string | number = '';
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -31,28 +33,26 @@ export class LoginComponent {
     if (this.createForm.valid) {
       const enteredCredentials: UserLogin = this.createForm.value;
 
-      this.loginService.login(enteredCredentials).subscribe((token) => {
-        const matchingCredentials = token.find(
-          (cred) =>
-            cred.email === enteredCredentials.email &&
-            cred.password === enteredCredentials.password
-        );
+      const loginSubscription = this.loginService
+        .login(enteredCredentials)
+        .subscribe(() => {
+          this.router.navigate(['/main']);
+        });
 
-        if (matchingCredentials) {
-          sessionStorage.setItem('tokenUser', JSON.stringify(token));
-          this.router.navigate(['/main'])
-        } else {
-          this.error = ('Incorrect email or password');
-          setTimeout(() => {
-            this.error = ''
-          }, 4000);
-          // Handle incorrect credentials, e.g., show an error message
-        }
-      });
+      this.subscription.add(loginSubscription);
     }
+    const errorSubscription = this.loginService.errorMessage$
+      .pipe(switchMap((e) => timer(4000).pipe(startWith(e))))
+      .subscribe((err) => (this.error = err));
+
+    this.subscription.add(errorSubscription);
   }
 
   close() {
-    this.error = ''
+    this.loginService.errorMessage$.next('');
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 }
