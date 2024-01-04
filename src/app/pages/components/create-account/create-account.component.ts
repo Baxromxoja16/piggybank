@@ -7,15 +7,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { AccountService } from '../../services/account.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Account, AccountService } from '../../services/account.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
   standalone: true,
-  imports: [UpDirective, ReactiveFormsModule],
+  imports: [UpDirective, ReactiveFormsModule, MatButtonModule],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',
 })
@@ -37,10 +37,7 @@ export class CreateAccountComponent {
       Validators.required,
       Validators.pattern(this.lettersReg),
     ]),
-    currency: new FormControl({
-      name: new FormControl(''),
-      symbol: new FormControl(''),
-    }),
+    currency: new FormControl(''),
     description: new FormControl(null, [Validators.maxLength(256)]),
     balance: new FormControl(null, [
       Validators.required,
@@ -48,10 +45,21 @@ export class CreateAccountComponent {
     ]),
   });
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private accountService: AccountService, private router: Router, private snackBar: MatSnackBar) {}
 
   onSubmit() {
-    this.accountService.addAccount(this.createForm.value);
-    this.createForm.reset()
+    this.accountService.addAccount(this.createForm.value).subscribe(
+      (account: Account) => {
+        this.snackBar.open(`Card ${account.title} successful created`, 'close', {
+          duration: 4000,
+        });
+        this.createForm.reset()
+      },
+      error => {
+        this.snackBar.open(` ${error.error.message}`, 'close', {
+          duration: 4000,
+        });
+      }
+    );
   }
 }

@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject, catchError, of } from 'rxjs';
 
 export interface Account {
   title: string;
-  currency: {
-    name: string
-    symbol: string
-  };
+  currency: string
   description: string;
   balance: number;
 }
@@ -15,25 +13,30 @@ export interface Account {
   providedIn: 'root',
 })
 export class AccountService {
+  baseUrl = 'http://localhost:3000/account';
   account: Account = {
     title: 'Credit card',
-    currency: {
-      name: 'USD',
-      symbol: '$'
-    },
+    currency: 'USD',
     description: '',
     balance: 2245.42,
   };
   accounts = [this.account, this.account];
   accounts$ = of(this.accounts);
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getAccounts() {
     return this.accounts$;
   }
 
-  addAccount(data: Account) {
-    return this.accounts.push(data);
+  addAccount(data: Account): Observable<Account> {
+    const token = sessionStorage.getItem('tokenUser')!;
+    let headers = {
+      'Content-Type': 'application/json; charset=utf-8',
+      Authorization: token,
+    };
+
+    return this.http
+      .post<Account>(this.baseUrl, data, { headers: headers });
   }
 }
