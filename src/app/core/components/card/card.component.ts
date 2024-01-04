@@ -1,12 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CreateAccountComponent } from '../../../pages/components/create-account/create-account.component';
 import { Account, AccountService } from '../../../pages/services/account.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CreateAccountComponent],
+  imports: [CreateAccountComponent, RouterModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
@@ -40,4 +40,8 @@ export class CardComponent implements OnInit{
   closeCreateAccountPopup() {
     this.open = false;
   }
+
+  // showDetails(id: string) {
+  //   this.router.navigate(['/main/account-info/' + id])
+  // }
 }

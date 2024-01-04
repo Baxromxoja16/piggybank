@@ -3,11 +3,11 @@
 
   <div class="cards">
     @for (account of accounts; track account.balance) {
-      <div class="card" >
+      <a [routerLink]="['/main/account-info/', account._id]" class="card">
         <h3>{{account.title}}</h3>
         <p>{{account.balance}}</p>
         <span class="currency"> {{account.sign}} </span>
-      </div>
+      </a>
     }
     <a routerLink="/account-info" class="card account" (click)="openCreateAccountPopup()">
       <span class="add-account">+</span>
