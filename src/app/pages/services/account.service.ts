@@ -18,7 +18,7 @@ export interface Account {
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl = 'http://localhost:3000/account';
+  baseUrl = 'http://localhost:3000/account/';
 
   token = sessionStorage.getItem('tokenUser')!;
   headers = {
@@ -27,6 +27,10 @@ export class AccountService {
   };
 
   constructor(private http: HttpClient) {}
+
+  getAccount(id: string) {
+    return this.http.get<Account>(this.baseUrl + id, {headers: this.headers});
+  }
 
   getAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.baseUrl, {headers: this.headers});
