@@ -7,6 +7,11 @@ export interface Account {
   currency: string
   description: string;
   balance: number;
+  sign: string;
+  createdAt: string;
+  updatedAt: string;
+  user_id:string;
+  _id: string;
 }
 
 @Injectable({
@@ -14,29 +19,23 @@ export interface Account {
 })
 export class AccountService {
   baseUrl = 'http://localhost:3000/account';
-  account: Account = {
-    title: 'Credit card',
-    currency: 'USD',
-    description: '',
-    balance: 2245.42,
+
+  token = sessionStorage.getItem('tokenUser')!;
+  headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    Authorization: this.token,
   };
-  accounts = [this.account, this.account];
-  accounts$ = of(this.accounts);
 
   constructor(private http: HttpClient) {}
 
-  getAccounts() {
-    return this.accounts$;
+  getAccounts(): Observable<Account[]> {
+    return this.http.get<Account[]>(this.baseUrl, {headers: this.headers});
   }
 
   addAccount(data: Account): Observable<Account> {
-    const token = sessionStorage.getItem('tokenUser')!;
-    let headers = {
-      'Content-Type': 'application/json; charset=utf-8',
-      Authorization: token,
-    };
+
 
     return this.http
-      .post<Account>(this.baseUrl, data, { headers: headers });
+      .post<Account>(this.baseUrl, data, { headers: this.headers });
   }
 }

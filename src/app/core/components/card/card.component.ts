@@ -16,7 +16,7 @@ export class CardComponent implements OnInit{
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
-    this.accountService.getAccounts().subscribe(data => {
+    this.accountService.getAccounts().subscribe((data: Account[]) => {
       this.accounts = data;
     })
   }
