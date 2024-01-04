@@ -33,8 +33,6 @@ export class AccountService {
   }
 
   addAccount(data: Account): Observable<Account> {
-
-
     return this.http
       .post<Account>(this.baseUrl, data, { headers: this.headers });
   }
