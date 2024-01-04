@@ -47,6 +47,10 @@ export class CreateAccountComponent {
 
   constructor(private accountService: AccountService, private router: Router, private snackBar: MatSnackBar) {}
 
+  close() {
+    this.router.navigate(['/main']);
+  }
+
   onSubmit() {
     this.accountService.addAccount(this.createForm.value).subscribe(
       (account: Account) => {

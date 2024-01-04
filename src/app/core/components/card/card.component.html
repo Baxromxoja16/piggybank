@@ -9,13 +9,13 @@
         <span class="currency"> {{account.sign}} </span>
       </div>
     }
-    <div class="card account" (click)="openCreateAccountPopup()">
+    <a routerLink="/account-info" class="card account" (click)="openCreateAccountPopup()">
       <span class="add-account">+</span>
       <p>Add account</p>
-    </div>
+    </a>
   </div>
 </div>
-
+<!-- 
 @if (open) {
   <app-create-account ></app-create-account>
-}
+} -->

@@ -3,6 +3,7 @@
     <div class="form-header">
       <h2>Create Account</h2>
       <img
+        (click)="close()"
         src="../../../../assets/images/OOjs_UI_icon_close-ltr 1.png"
         alt=""
         class="close"
@@ -52,9 +53,14 @@
 
     }
     <div class="form-field">
-      <select name="currency" formControlName="currency" id="currency" class="input">
+      <select
+        name="currency"
+        formControlName="currency"
+        id="currency"
+        class="input"
+      >
         @for(currency of currencies; track currency.name) {
-        <option [ngValue]="currency.name">{{ currency.name  }}</option>
+        <option [ngValue]="currency.name">{{ currency.name }}</option>
         }
       </select>
     </div>
@@ -82,4 +88,4 @@
     </div>
   </form>
 </div>
-<div class="black-bg"></div>
+<div class="black-bg" (click)="close()"></div>

@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CreateAccountComponent } from '../../../pages/components/create-account/create-account.component';
 import { Account, AccountService } from '../../../pages/services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -13,7 +14,7 @@ export class CardComponent implements OnInit{
   open: boolean = false;
   accounts: Account[] = []; 
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {
     this.accountService.getAccounts().subscribe((data: Account[]) => {
@@ -22,7 +23,8 @@ export class CardComponent implements OnInit{
   }
 
   openCreateAccountPopup() {
-    this.open = true;
+    // this.open = true;
+    this.router.navigate(["/main/create-account"])
   }
   @HostListener('click', ['$event.target'])
   clickedOut(target: HTMLElement) {
