@@ -66,6 +66,11 @@ export class AccountService {
   }
 
   editAccount(id: string, body: Account) {
-    return this.http.put(this.baseUrl + id, body, { headers: this.headers });
+    return this.http.put(this.baseUrl + id, body, { headers: this.headers }).pipe(
+      tap((account) => {
+        const idx = this.accounts.findIndex((acc) => (account as Account)._id === (acc as Account)._id);
+        this.accounts.splice(idx, 1, account as Account)
+      })
+    );
   }
 }
