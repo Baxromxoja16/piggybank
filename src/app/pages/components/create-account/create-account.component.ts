@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { UpDirective } from '../../../auth/directives/up.directive';
 import {
   FormBuilder,
@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Account, AccountService } from '../../services/account.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-account',
@@ -19,7 +20,7 @@ import { Router } from '@angular/router';
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',
 })
-export class CreateAccountComponent {
+export class CreateAccountComponent implements OnDestroy {
   lettersReg = new RegExp('[A-Za-z]');
   numberReg = new RegExp('^[0-9.,0-9]');
   currencies = [
@@ -31,6 +32,8 @@ export class CreateAccountComponent {
     { name: 'RUB', symbol: '₽' },
   ];
   selected = { name: 'USD', symbol: '$' };
+
+  subscription: Subscription = new Subscription()
 
   createForm: FormGroup = new FormGroup({
     title: new FormControl(null, [
@@ -52,7 +55,7 @@ export class CreateAccountComponent {
   }
 
   onSubmit() {
-    this.accountService.addAccount(this.createForm.value).subscribe(
+    const addAccount = this.accountService.addAccount(this.createForm.value).subscribe(
       (account: Account) => {
         this.snackBar.open(`Card ${account.title} successful created`, 'close', {
           duration: 4000,
@@ -66,5 +69,11 @@ export class CreateAccountComponent {
         });
       }
     );
+
+    this.subscription.add(addAccount);    
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 }

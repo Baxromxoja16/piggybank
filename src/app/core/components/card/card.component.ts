@@ -25,8 +25,6 @@ export class CardComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.accountService.accountsChanged
         .subscribe((accounts) => {
-          console.log(accounts);
-          
           this.accounts = accounts;
         })
     );
@@ -40,10 +38,6 @@ export class CardComponent implements OnInit, OnDestroy {
     this.subscription.add(getAccount);
   }
 
-  openCreateAccountPopup() {
-    // this.open = true;
-    this.router.navigate(['/main/create-account']);
-  }
   @HostListener('click', ['$event.target'])
   clickedOut(target: HTMLElement) {
     if (
