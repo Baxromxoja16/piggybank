@@ -40,4 +40,12 @@ export class AccountService {
     return this.http
       .post<Account>(this.baseUrl, data, { headers: this.headers });
   }
+
+  deleteAccount(id: string) {
+    return this.http.delete(this.baseUrl + id, { headers: this.headers })
+  }
+
+  editAccount(id: string) {
+
+  }
 }

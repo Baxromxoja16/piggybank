@@ -1,0 +1,46 @@
+<a class="overlay" routerLink="/main"></a>
+<div class="account">
+  <div class="account__content">
+    @if (progress === "stop") {
+    <div class="account__content-top">
+      <div class="top-heading">
+        <h3 class="account-title">Account Information</h3>
+        <div class="top-actions">
+          <button class="btn" (click)="onEdit(account?._id)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="btn" (click)="onDelete(account?._id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <a routerLink="/main">
+            <button class="btn"><mat-icon>close</mat-icon></button>
+          </a>
+        </div>
+      </div>
+      <div class="account__content-info">
+        <div class="info-row">
+          <p class="info-header">Title:</p>
+          <p class="info-text">{{ account?.title }}</p>
+        </div>
+        <div class="info-row">
+          <p class="info-header">Balance:</p>
+          <p class="info-text">{{ account?.balance }}</p>
+        </div>
+        <div class="info-row">
+          <p class="info-header">Currency:</p>
+          <p class="info-text">{{ account?.currency }} ({{ account?.sign }})</p>
+        </div>
+        <div class="info-row">
+          <p class="info-header">Description:</p>
+          <p class="info-text">{{ account?.description }}</p>
+        </div>
+      </div>
+    </div>
+    } @else {
+    <mat-spinner></mat-spinner>
+    }
+    <a routerLink="/main" class="account__content-bottom">
+      <button mat-raised-button>Close</button>
+    </a>
+  </div>
+</div>
