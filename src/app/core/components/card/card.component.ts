@@ -1,7 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CreateAccountComponent } from '../../../pages/components/create-account/create-account.component';
-import { Account, AccountService } from '../../../pages/services/account.service';
+import {
+  Account,
+  AccountService,
+} from '../../../pages/services/account.service';
 import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-card',
@@ -10,21 +14,35 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
-export class CardComponent implements OnInit{
+export class CardComponent implements OnInit, OnDestroy {
   open: boolean = false;
-  accounts: Account[] = []; 
+  accounts: Account[] = [];
+  subscription: Subscription = new Subscription();
 
   constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {
-    this.accountService.getAccounts().subscribe((data: Account[]) => {
-      this.accounts = data;
-    })
+    this.subscription.add(
+      this.accountService.accountsChanged
+        .subscribe((accounts) => {
+          console.log(accounts);
+          
+          this.accounts = accounts;
+        })
+    );
+
+    const getAccount = this.accountService
+      .getAccounts()
+      .subscribe((data: Account[]) => {
+        this.accounts = data;
+      });
+
+    this.subscription.add(getAccount);
   }
 
   openCreateAccountPopup() {
     // this.open = true;
-    this.router.navigate(["/main/create-account"])
+    this.router.navigate(['/main/create-account']);
   }
   @HostListener('click', ['$event.target'])
   clickedOut(target: HTMLElement) {
@@ -41,7 +59,7 @@ export class CardComponent implements OnInit{
     this.open = false;
   }
 
-  // showDetails(id: string) {
-  //   this.router.navigate(['/main/account-info/' + id])
-  // }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

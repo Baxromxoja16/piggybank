@@ -58,6 +58,7 @@ export class CreateAccountComponent {
           duration: 4000,
         });
         this.createForm.reset()
+        this.router.navigate(['/main']);
       },
       error => {
         this.snackBar.open(` ${error.error.message}`, 'close', {
