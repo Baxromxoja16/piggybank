@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, tap } from 'rxjs';
+import { Observable, Subject, map, tap } from 'rxjs';
 
 export interface Account {
   title: string;
@@ -43,6 +43,16 @@ export class AccountService {
   getAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.baseUrl, {headers: this.headers}).pipe(
       tap(accounts => this.accounts = accounts)
+    );
+  }
+
+  getCurrencies() {
+    return this.http.get(`http://localhost:3000/currency`, { headers: this.headers }).pipe(
+      map((values: any) => {
+        return values.map((c: { code: string; symbol: string }) => {
+          return { code: c.code, sign: c.symbol };
+        });
+      })
     );
   }
 

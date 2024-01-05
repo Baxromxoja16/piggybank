@@ -63,8 +63,8 @@
         id="currency"
         class="input"
       >
-        @for(currency of currencies; track currency.name) {
-        <option [ngValue]="currency.name">{{ currency.name }}</option>
+        @for(currency of currencies; track currency.code) {
+        <option [ngValue]="currency.code">{{ currency.code }}, {{currency.sign}}</option>
         }
       </select>
     </div>

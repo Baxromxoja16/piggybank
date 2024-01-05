@@ -23,14 +23,7 @@ import { Subject, Subscription } from 'rxjs';
 export class CreateAccountComponent implements OnInit, OnDestroy {
   lettersReg = new RegExp('[A-Za-z]');
   numberReg = new RegExp('^[0-9.,0-9]');
-  currencies = [
-    { name: 'USD', symbol: '$' },
-    { name: 'EUR', symbol: '€' },
-    { name: 'GBP', symbol: '£' },
-    { name: 'JPY', symbol: '¥' },
-    { name: 'UZS', symbol: 'S' },
-    { name: 'RUB', symbol: '₽' },
-  ];
+  currencies!: any;
   selected = { name: 'USD', symbol: '$' };
 
   subscription: Subscription = new Subscription();
@@ -62,6 +55,11 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
         }
       )
     }
+
+    this.accountService.getCurrencies().subscribe((currencies) => {
+      this.currencies = currencies;
+      
+    })
 
     this.formInit()
   }
