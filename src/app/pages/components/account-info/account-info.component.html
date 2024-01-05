@@ -6,9 +6,11 @@
       <div class="top-heading">
         <h3 class="account-title">Account Information</h3>
         <div class="top-actions">
-          <button class="btn" (click)="onEdit(account?._id)">
-            <mat-icon>edit</mat-icon>
-          </button>
+          <a routerLink="/main/edit-account/{{account?._id}}">
+            <button class="btn">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </a>
           <button class="btn" (click)="onDelete(account?._id)">
             <mat-icon>delete</mat-icon>
           </button>

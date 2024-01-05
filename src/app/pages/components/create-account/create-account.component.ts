@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UpDirective } from '../../../auth/directives/up.directive';
 import {
   FormBuilder,
@@ -10,8 +10,8 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Account, AccountService } from '../../services/account.service';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-account',
@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',
 })
-export class CreateAccountComponent implements OnDestroy {
+export class CreateAccountComponent implements OnInit, OnDestroy {
   lettersReg = new RegExp('[A-Za-z]');
   numberReg = new RegExp('^[0-9.,0-9]');
   currencies = [
@@ -33,47 +33,106 @@ export class CreateAccountComponent implements OnDestroy {
   ];
   selected = { name: 'USD', symbol: '$' };
 
-  subscription: Subscription = new Subscription()
+  subscription: Subscription = new Subscription();
 
-  createForm: FormGroup = new FormGroup({
-    title: new FormControl(null, [
-      Validators.required,
-      Validators.pattern(this.lettersReg),
-    ]),
-    currency: new FormControl(''),
-    description: new FormControl(null, [Validators.maxLength(256)]),
-    balance: new FormControl(null, [
-      Validators.required,
-      Validators.pattern(this.numberReg),
-    ]),
-  });
+  editMode = false;
 
-  constructor(private accountService: AccountService, private router: Router, private snackBar: MatSnackBar) {}
+  createForm!: FormGroup;
+
+  editAccount: Account[] = [];
+
+  id: string = '';
+
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
+    ) {}
+
+  ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id')!;
+
+    if (this.id) {
+      this.editMode = true;
+      this.accountService.getAccount(this.id).subscribe(
+        (account) => {
+          this.editAccount.push(account)
+          this.formInit();
+        }
+      )
+    }
+
+    this.formInit()
+  }
 
   close() {
     this.router.navigate(['/main']);
   }
 
   onSubmit() {
-    const addAccount = this.accountService.addAccount(this.createForm.value).subscribe(
-      (account: Account) => {
-        this.snackBar.open(`Card ${account.title} successful created`, 'close', {
-          duration: 4000,
-        });
-        this.createForm.reset()
-        this.router.navigate(['/main']);
-      },
-      error => {
-        this.snackBar.open(` ${error.error.message}`, 'close', {
-          duration: 4000,
-        });
-      }
-    );
+    let addAccount;
+    if (this.editMode) {
+      addAccount = this.accountService.editAccount(this.id, this.createForm.value).subscribe(
+        (account) => {
+          this.snackBarMessage(`Card ${(account as Account).title} successful edited`);
+          this.createForm.reset()
+          this.router.navigate(['/main']);          
+        }
+      );
+    } else {
+      addAccount = this.accountService.addAccount(this.createForm.value).subscribe(
+        (account: Account) => {
+          this.snackBarMessage(`Card ${account.title} successful created`)
+          this.createForm.reset()
+          this.router.navigate(['/main']);
+        },
+        error => {
+          this.snackBarMessage(error.error.message);
+        }
+      );
+    }
 
-    this.subscription.add(addAccount);    
+    this.subscription.add(addAccount);
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
   }
+
+  private snackBarMessage(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 4000,
+    });
+  }
+
+  private formInit() {
+    let title = '';
+    let currency = '';
+    let description = '';
+    let balance = null;
+
+    if (this.editMode) {
+      title = this.editAccount[0]?.title;
+      currency = this.editAccount[0]?.currency;
+      description = this.editAccount[0]?.description;
+      balance = this.editAccount[0]?.balance;
+    }
+
+    this.createForm = new FormGroup({
+      title: new FormControl(title, [
+        Validators.required,
+        Validators.pattern(this.lettersReg),
+      ]),
+      currency: new FormControl(currency),
+      description: new FormControl(description, [Validators.maxLength(256)]),
+      balance: new FormControl(balance, [
+        Validators.required,
+        Validators.pattern(this.numberReg),
+      ]),
+    });
+  
+  }
+
+
 }

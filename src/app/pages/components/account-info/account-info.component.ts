@@ -50,8 +50,6 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onEdit(id?: string) {}
-
   onDelete(id?: string) {
     if (id) {
       const deleteAccount = this.accountService.deleteAccount(id).subscribe(() => {

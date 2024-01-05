@@ -14,6 +14,7 @@ export const routes: Routes = [
   { path: 'auth', component: LoginComponent },
   { path: 'main', canActivate: [authGuard], component: MainComponent, children: [
     { path: 'create-account', component: CreateAccountComponent },
+    { path: 'edit-account/:id', component: CreateAccountComponent },
     { path: 'account-info/:id', component: AccountInfoComponent }
   ] },
 

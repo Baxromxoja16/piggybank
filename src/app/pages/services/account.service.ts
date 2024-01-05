@@ -65,7 +65,7 @@ export class AccountService {
     );
   }
 
-  editAccount(id: string) {
-
+  editAccount(id: string, body: Account) {
+    return this.http.put(this.baseUrl + id, body, { headers: this.headers });
   }
 }

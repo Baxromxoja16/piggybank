@@ -1,7 +1,11 @@
 <div class="create-account">
   <form [formGroup]="createForm" (submit)="onSubmit()">
     <div class="form-header">
-      <h2>Create Account</h2>
+      @if(editMode) {
+        <h2>Edit Account</h2>
+      } @else {
+        <h2>Create Account</h2>
+      }
       <img
         (click)="close()"
         src="../../../../assets/images/OOjs_UI_icon_close-ltr 1.png"
