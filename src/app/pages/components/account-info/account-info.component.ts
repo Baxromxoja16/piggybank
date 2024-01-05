@@ -5,6 +5,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Account, AccountService } from '../../services/account.service';
 import { Subscription } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAnimationsExampleDialog } from './dialog-animations';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -29,6 +31,7 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private accountService: AccountService,
     private router: Router,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
 
@@ -52,14 +55,22 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
 
   onDelete(id?: string) {
     if (id) {
-      const deleteAccount = this.accountService.deleteAccount(id).subscribe(() => {
-        this.router.navigate(['/main']);
-        this.snackBar.open(`Card deleted`, 'close', {
-          duration: 4000,
-        });
-      });
+      const dialogRef = this.dialog.open(DialogAnimationsExampleDialog);
 
-      this.subscription.add(deleteAccount);
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          const deleteAccount = this.accountService
+            .deleteAccount(this.id)
+            .subscribe(() => {
+              this.router.navigate(['/main']);
+              this.snackBar.open(`Card deleted`, 'close', {
+                duration: 4000,
+              });
+            });
+
+          this.subscription.add(deleteAccount);
+        }
+      });
     }
   }
 }
