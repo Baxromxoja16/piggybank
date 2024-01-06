@@ -5,12 +5,11 @@ import {
   provideHttpClient,
   withInterceptors,
 } from '@angular/common/http';
-import { accountInterceptor } from './core/account.interceptor';
 
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-    provideHttpClient(withInterceptors([accountInterceptor])),
+    provideHttpClient(withInterceptors([])),
   ],
 };
 

@@ -1,11 +1,9 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { CreateAccountComponent } from '../../../pages/components/create-account/create-account.component';
-import {
-  Account,
-  AccountService,
-} from '../../../pages/services/account.service';
+import { CreateAccountComponent } from './create-account/create-account.component';
+
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Account, AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-card',

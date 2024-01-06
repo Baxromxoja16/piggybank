@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { TransactionsComponent } from '../../core/components/transactions/transactions.component';
-import { SettingsComponent } from '../../core/components/settings/settings.component';
-import { CardComponent } from '../../core/components/card/card.component';
-import { AccountInfoComponent } from '../components/account-info/account-info.component';
+import { TransactionsComponent } from '../transactions/transactions.component';
+import { SettingsComponent } from '../settings/settings.component';
+import { CardComponent } from '../card/card.component';
+import { AccountInfoComponent } from '../card/account-info/account-info.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
