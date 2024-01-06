@@ -4,6 +4,7 @@ import { MainComponent } from './pages/main/main.component';
 import { authGuard } from './auth/guards/auth.guard';
 import { CreateAccountComponent } from './pages/card/create-account/create-account.component';
 import { AccountInfoComponent } from './pages/card/account-info/account-info.component';
+import { TransactionCreateComponent } from './pages/transactions/transaction-create/transaction-create.component';
 
 export const routes: Routes = [
   {
@@ -15,7 +16,8 @@ export const routes: Routes = [
   { path: 'main', canActivate: [authGuard], component: MainComponent, children: [
     { path: 'create-account', component: CreateAccountComponent },
     { path: 'edit-account/:id', component: CreateAccountComponent },
-    { path: 'account-info/:id', component: AccountInfoComponent }
+    { path: 'account-info/:id', component: AccountInfoComponent },
+    { path: 'transaction-create', component: TransactionCreateComponent }
   ] },
 
 ];
