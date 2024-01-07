@@ -42,7 +42,6 @@ export class TransactionCreateComponent implements OnInit{
     'Tomato',
   ];
   startDate = new Date(1990, 0, 1);
-  dateNow = new Date();
 
   ngOnInit(): void {
   }
@@ -70,8 +69,9 @@ export class TransactionCreateComponent implements OnInit{
   private dateValidation(control: AbstractControl) {
     const value = control.value;
     const chosenDate = new Date(value);
+    const dateNow = new Date();
 
-    if (this.dateNow.getTime() < chosenDate.getTime()) {
+    if (dateNow.getTime() < chosenDate.getTime()) {
       return { isValid: true }
     }
 
