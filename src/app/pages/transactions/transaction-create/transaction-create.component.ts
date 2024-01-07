@@ -16,6 +16,10 @@ import { RouterModule } from '@angular/router';
 import { AccountService } from '../../services/account.service';
 import { Subscription } from 'rxjs';
 
+export interface IsError {
+  message: string
+  isError: boolean
+}
 @Component({
   selector: 'app-transaction-create',
   standalone: true,
@@ -34,7 +38,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './transaction-create.component.scss',
 })
 export class TransactionCreateComponent implements OnInit, OnDestroy {
-  toppings = new FormControl('');
+  toppings = new FormControl('', Validators.required);
   toppingList: string[] = [
     'Extra cheese',
     'Mushroom',
@@ -67,16 +71,16 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
       Validators.maxLength(128),
       this.noDotsAtEndValidator,
     ]),
-    category: new FormControl('', Validators.required),
+    category: new FormControl(this.toppings.value, Validators.required),
     description: new FormControl<string>('', Validators.max(256)),
     amount: new FormControl<number | null>(null, [
       Validators.required,
       Validators.min(1),
       Validators.pattern(/[0-9]/),
-      Validators.pattern(/^\d+(\.\d{1,2})?$/),
-      this.singleDotValidator,
+      Validators.pattern(/^\d+(\.\d{0,2})?$/)
     ]),
     date: new FormControl('', [Validators.required, this.dateValidation]),
+    accountId: new FormControl('', Validators.required)
   });
 
 
@@ -84,11 +88,59 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe()
   }
 
+  onSubmit() {
+    this.typeValidation()
+    // console.log(this.transactionForm.value)
+  }
+
+  protected typeValidation(): IsError {
+    const formControl = this.transactionForm.get('type');
+    
+    if (formControl?.errors?.['required'] && formControl?.touched) {
+      return {message: `Transaction type is required field`, isError: true};
+    }
+    return {message: '', isError: false};
+  }
+  protected titleValidation(): IsError {
+    const formControl = this.transactionForm.get('title');
+    const maxLength = formControl?.errors?.['maxlength'];
+
+    if (formControl?.errors?.['required'] && formControl?.touched) {
+      return {message: `Title is required field`, isError: true};
+    } 
+    else if (maxLength?.actualLength > maxLength?.requiredLength && formControl?.touched) {
+      return {message: `The maximum length should be ${maxLength?.requiredLength}, actualy length ${maxLength?.actualLength}`, isError: true};
+    }
+    return {message: '', isError: false};
+  }
+  // protected categoryValidation(): IsError {
+  //   const formControl = this.transactionForm.get('category');
+  //   formControl?.setValue(this.toppings.value)
+    
+  //   if (formControl?.errors?.['required'] && formControl?.touched) {
+  //     return {message: `Category is required field`, isError: true};
+  //   }
+  //   return {message: '', isError: false};
+  // }
+  protected amountValidation(): IsError {
+    const formControl = this.transactionForm.get('amount');
+    
+    if (formControl?.errors?.['required'] && formControl?.touched) {
+      return {message: `Amount is required field`, isError: true};
+    } else if (formControl?.errors?.['pattern']?.requiredPattern && formControl.touched) {
+      return {message: `After dot (.) you should engter only two numbers!`, isError: true};
+    } else if (formControl?.errors?.['min'] && formControl.touched) {
+      return {message: `You should enter a positive amount!`, isError: true};
+    }
+    return {message: '', isError: false};
+  }
+
   private getActiveAccountID() {
     const getAccounts = this.accountService.getAccounts().subscribe()
 
     const activeAccount = this.accountService.switchAccount.subscribe(activeAccount => {
       this.accountId = activeAccount._id;
+      this.transactionForm.get('accountId')?.setValue(activeAccount._id)
     })
 
     this.subscription.add(getAccounts)
@@ -113,17 +165,6 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     // Check if the last character is a dot
     if (value && value.trim().endsWith('.')) {
       return { noDotsAtEnd: true };
-    }
-
-    return null; // Validation passed
-  }
-
-  private singleDotValidator(control: AbstractControl) {
-    const value = control.value;
-    const dotCount = value ? value.split('.').length - 1 : 0;
-
-    if (dotCount > 1) {
-      return { singleDot: true };
     }
 
     return null; // Validation passed
