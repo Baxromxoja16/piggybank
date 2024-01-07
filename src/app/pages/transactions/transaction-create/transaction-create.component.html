@@ -43,10 +43,12 @@
     </mat-form-field>
 
     <div class="buttons">
-        <button mat-flat-button color="warn">Warn</button>
-        <button mat-flat-button color="primary">Primary</button>
-        <button mat-flat-button>Save</button>
+      @if (false) {
+        <button mat-flat-button color="warn">Delete</button>
+        <button mat-flat-button>Edit</button>
+      }
+      <button class="save" mat-flat-button color="primary">Save</button>
     </div>
   </form>
 </div>
-<div class="black-bg"></div>
+<a routerLink="/main" class="black-bg"></a>

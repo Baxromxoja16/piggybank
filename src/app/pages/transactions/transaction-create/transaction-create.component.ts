@@ -6,12 +6,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-transaction-create',
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    RouterModule,
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
