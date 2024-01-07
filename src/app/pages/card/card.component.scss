@@ -51,9 +51,9 @@
       flex-direction: column;
       align-items: flex-start;
       border-radius: 10px;
-      background: url("../../../../assets/images/card-bg.png"),
-        lightgray 50% / cover no-repeat;
+      background-image: linear-gradient(to right bottom, #f8616a, #ef6cab, #c788dc, #8ba2f3, #53b4ee);
       background-position: -14px;
+      background-position: 0;
       box-shadow: 5px 10px 20px 0px rgba(0, 0, 0, 0.25);
       padding: 21px 19px 20px 23px;
       position: relative;
