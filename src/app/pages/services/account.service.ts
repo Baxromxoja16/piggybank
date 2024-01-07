@@ -30,6 +30,8 @@ export class AccountService {
 
   accountsChanged: Subject<Account[]> = new Subject();
 
+  switchAccount: Subject<Account> = new Subject();
+
   constructor(private http: HttpClient) {}
 
   private updateAccounts() {
@@ -42,7 +44,10 @@ export class AccountService {
 
   getAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.baseUrl, {headers: this.headers}).pipe(
-      tap(accounts => this.accounts = accounts)
+      tap(accounts => {
+        this.accounts = accounts;
+        this.switchAccount.next(accounts[0])
+      }),
     );
   }
 

@@ -3,11 +3,12 @@
 
   <div class="cards">
     @for (account of accounts; track account.balance) {
-      <a [routerLink]="['/main/account-info/', account._id]" class="card">
+      <div class="card" (click)="onSwitchAccount(account)" [ngClass]="account._id === switchAccount._id ? 'active' : ''">
         <h3>{{account.title}}</h3>
         <p>{{account.balance}}</p>
         <span class="currency"> {{account.sign}} </span>
-      </a>
+        <a [routerLink]="['/main/account-info/', account._id]">Details</a>
+      </div>
     }
     <a routerLink="/main/create-account" class="card account">
       <span class="add-account">+</span>

@@ -58,7 +58,16 @@
       padding: 21px 19px 20px 23px;
       position: relative;
       cursor: pointer;
+      opacity: 0.4;
       text-decoration: none;
+      
+      a {
+        color: #fff;
+      }
+    }
+
+    .active {
+      opacity: 1 !important;
     }
 
     h3 {
@@ -90,13 +99,10 @@
   }
 }
 
-.disabled {
-  opacity: 0.3;
-}
-
 .account {
   align-items: center !important;
   flex-direction: row !important;
+  opacity: 1 !important;
 
   gap: 10px;
   p {

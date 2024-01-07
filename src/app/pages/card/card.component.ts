@@ -2,13 +2,14 @@ import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CreateAccountComponent } from './create-account/create-account.component';
 
 import { Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, take, takeLast } from 'rxjs';
 import { Account, AccountService } from '../services/account.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CreateAccountComponent, RouterModule],
+  imports: [CreateAccountComponent, RouterModule, CommonModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
@@ -16,6 +17,7 @@ export class CardComponent implements OnInit, OnDestroy {
   open: boolean = false;
   accounts: Account[] = [];
   subscription: Subscription = new Subscription();
+  switchAccount!: Account; 
 
   constructor(private accountService: AccountService, private router: Router) {}
 
@@ -33,6 +35,12 @@ export class CardComponent implements OnInit, OnDestroy {
         this.accounts = data;
       });
 
+    const switchAccount = this.accountService.switchAccount
+    .subscribe((account) => {
+      this.switchAccount = account
+    })
+
+    this.subscription.add(switchAccount);
     this.subscription.add(getAccount);
   }
 
@@ -45,6 +53,11 @@ export class CardComponent implements OnInit, OnDestroy {
     ) {
       this.closeCreateAccountPopup();
     }
+  }
+
+  onSwitchAccount(account: Account) {
+    this.accountService.switchAccount.next(account);
+    console.log(this.switchAccount);
   }
 
   closeCreateAccountPopup() {
