@@ -34,9 +34,9 @@
         }
       </mat-select>
     </mat-form-field>
-    <!-- @if (categoryValidation().isError) {
+    @if (categoryValidation().isError) {
       <span class="help-block">{{categoryValidation().message}}</span>
-    } -->
+    }
 
     <mat-form-field>
       <mat-label>Amount</mat-label>
@@ -53,6 +53,9 @@
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
     </mat-form-field>
+    @if (dateValidationForHTML()) {
+      <span class="help-block">{{dateValidationForHTML().message}}</span>
+    }
 
     <div class="buttons">
       @if (false) {

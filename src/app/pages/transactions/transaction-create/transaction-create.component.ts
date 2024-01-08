@@ -113,15 +113,15 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     }
     return {message: '', isError: false};
   }
-  // protected categoryValidation(): IsError {
-  //   const formControl = this.transactionForm.get('category');
-  //   formControl?.setValue(this.toppings.value)
+  protected categoryValidation(): IsError {
+    const formControl = this.transactionForm.get('category');
+    formControl?.setValue(this.toppings.value)
     
-  //   if (formControl?.errors?.['required'] && formControl?.touched) {
-  //     return {message: `Category is required field`, isError: true};
-  //   }
-  //   return {message: '', isError: false};
-  // }
+    if (formControl?.errors?.['required'] && this.toppings?.touched) {
+      return {message: `Category is required field`, isError: true};
+    }
+    return {message: '', isError: false};
+  }
   protected amountValidation(): IsError {
     const formControl = this.transactionForm.get('amount');
     
@@ -147,6 +147,17 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     this.subscription.add(activeAccount);
   }
 
+  protected dateValidationForHTML(): IsError {
+    const formControl = this.transactionForm.get('date');
+
+    if (formControl?.errors?.['required'] && formControl?.touched) {
+      return {message: `Date is required field`, isError: true};
+    } else if (formControl?.errors?.['isValid'] && formControl.touched) {
+      return {message: `You can not enter future date`, isError: true};
+    }
+    return {message: '', isError: false};
+  }
+
   private dateValidation(control: AbstractControl) {
     const value = control.value;
     const chosenDate = new Date(value);
@@ -157,7 +168,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     }
 
     return null;
-  } 
+  }
 
   private noDotsAtEndValidator(control: AbstractControl) {
     const value = control.value;
