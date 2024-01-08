@@ -53,6 +53,8 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
 
   accountId: string = ''
 
+  submitted = false;
+
   constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
@@ -61,6 +63,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       console.log(this.accountId);
     }, 1000);
+    console.log(this.transactionForm);
     
   }
 
@@ -89,14 +92,16 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.typeValidation()
+    console.log(this.transactionForm);
+    this.submitted = true;
+    
     // console.log(this.transactionForm.value)
   }
 
   protected typeValidation(): IsError {
     const formControl = this.transactionForm.get('type');
     
-    if (formControl?.errors?.['required'] && formControl?.touched) {
+    if (formControl?.errors?.['required'] && formControl?.touched || this.submitted) {
       return {message: `Transaction type is required field`, isError: true};
     }
     return {message: '', isError: false};
@@ -105,7 +110,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     const formControl = this.transactionForm.get('title');
     const maxLength = formControl?.errors?.['maxlength'];
 
-    if (formControl?.errors?.['required'] && formControl?.touched) {
+    if (formControl?.errors?.['required'] && formControl?.touched || this.submitted) {
       return {message: `Title is required field`, isError: true};
     } 
     else if (maxLength?.actualLength > maxLength?.requiredLength && formControl?.touched) {
@@ -117,7 +122,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     const formControl = this.transactionForm.get('category');
     formControl?.setValue(this.toppings.value)
     
-    if (formControl?.errors?.['required'] && this.toppings?.touched) {
+    if (formControl?.errors?.['required'] && this.toppings?.touched || this.submitted) {
       return {message: `Category is required field`, isError: true};
     }
     return {message: '', isError: false};
@@ -125,7 +130,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   protected amountValidation(): IsError {
     const formControl = this.transactionForm.get('amount');
     
-    if (formControl?.errors?.['required'] && formControl?.touched) {
+    if (formControl?.errors?.['required'] && formControl?.touched || this.submitted) {
       return {message: `Amount is required field`, isError: true};
     } else if (formControl?.errors?.['pattern']?.requiredPattern && formControl.touched) {
       return {message: `After dot (.) you should engter only two numbers!`, isError: true};
@@ -150,7 +155,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   protected dateValidationForHTML(): IsError {
     const formControl = this.transactionForm.get('date');
 
-    if (formControl?.errors?.['required'] && formControl?.touched) {
+    if (formControl?.errors?.['required'] && formControl?.touched || this.submitted) {
       return {message: `Date is required field`, isError: true};
     } else if (formControl?.errors?.['isValid'] && formControl.touched) {
       return {message: `You can not enter future date`, isError: true};
