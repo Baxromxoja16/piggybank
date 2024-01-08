@@ -23,3 +23,13 @@
         width: 100%;
     }
 }
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
+    color: #fff;
+    background-color: green !important; 
+}
+
+::ng-deep .mdc-button .mdc-button__label {
+    color: #fff;
+    font-weight: 700;
+}

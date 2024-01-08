@@ -12,14 +12,27 @@ import {
 } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
-import { AccountService } from '../../services/account.service';
+import { Router, RouterModule } from '@angular/router';
+import { Account, AccountService } from '../../services/account.service';
 import { Subscription } from 'rxjs';
+import { TransactionService } from '../../services/transaction.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface IsError {
   message: string
   isError: boolean
 }
+
+export interface ITransaction {
+  type: string
+  title: string
+  category: string[]
+  description: string
+  amount:number
+  date:Date
+  accountId:string
+}
+
 @Component({
   selector: 'app-transaction-create',
   standalone: true,
@@ -51,20 +64,18 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
 
   subscription = new Subscription();
 
-  accountId: string = ''
 
   submitted = false;
 
-  constructor(private accountService: AccountService) {}
+  constructor(
+    private accountService: AccountService,
+    private transactionService: TransactionService,
+    private snackBar: MatSnackBar,
+    private router: Router
+    ) {}
 
   ngOnInit(): void {
-    this.getActiveAccountID();
-
-    setTimeout(() => {
-      console.log(this.accountId);
-    }, 1000);
-    console.log(this.transactionForm);
-    
+    this.getActiveAccountID();    
   }
 
   transactionForm: FormGroup = new FormGroup({
@@ -92,16 +103,22 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.transactionForm);
-    this.submitted = true;
-    
-    // console.log(this.transactionForm.value)
+    if (this.transactionForm.valid) {
+      this.transactionService.createTransaction(this.transactionForm.value).subscribe((data) => {
+        this.snackBar.open(`${data.type} transaction has been successfully added!`, 'Close', {
+          duration: 4000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+        this.transactionForm.reset()
+      })
+    }
   }
 
   protected typeValidation(): IsError {
     const formControl = this.transactionForm.get('type');
     
-    if (formControl?.errors?.['required'] && formControl?.touched || this.submitted) {
+    if (formControl?.errors?.['required'] && formControl?.touched) {
       return {message: `Transaction type is required field`, isError: true};
     }
     return {message: '', isError: false};
@@ -110,7 +127,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     const formControl = this.transactionForm.get('title');
     const maxLength = formControl?.errors?.['maxlength'];
 
-    if (formControl?.errors?.['required'] && formControl?.touched || this.submitted) {
+    if (formControl?.errors?.['required'] && formControl?.touched) {
       return {message: `Title is required field`, isError: true};
     } 
     else if (maxLength?.actualLength > maxLength?.requiredLength && formControl?.touched) {
@@ -122,7 +139,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     const formControl = this.transactionForm.get('category');
     formControl?.setValue(this.toppings.value)
     
-    if (formControl?.errors?.['required'] && this.toppings?.touched || this.submitted) {
+    if (formControl?.errors?.['required'] && this.toppings?.touched) {
       return {message: `Category is required field`, isError: true};
     }
     return {message: '', isError: false};
@@ -130,7 +147,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   protected amountValidation(): IsError {
     const formControl = this.transactionForm.get('amount');
     
-    if (formControl?.errors?.['required'] && formControl?.touched || this.submitted) {
+    if (formControl?.errors?.['required'] && formControl?.touched) {
       return {message: `Amount is required field`, isError: true};
     } else if (formControl?.errors?.['pattern']?.requiredPattern && formControl.touched) {
       return {message: `After dot (.) you should engter only two numbers!`, isError: true};
@@ -144,7 +161,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     const getAccounts = this.accountService.getAccounts().subscribe()
 
     const activeAccount = this.accountService.switchAccount.subscribe(activeAccount => {
-      this.accountId = activeAccount._id;
+      this.transactionService.accountId$.next(activeAccount)
       this.transactionForm.get('accountId')?.setValue(activeAccount._id)
     })
 
