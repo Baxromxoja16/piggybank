@@ -33,3 +33,13 @@
     color: #fff;
     font-weight: 700;
 }
+
+::ng-deep .warn {
+    .mat-mdc-dialog-container .mdc-dialog__content {
+        color: red !important;
+    }
+
+    .mdc-button {
+        background-color: red;
+    }
+}

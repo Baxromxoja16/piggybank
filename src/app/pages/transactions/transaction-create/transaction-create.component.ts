@@ -17,6 +17,8 @@ import { Account, AccountService } from '../../services/account.service';
 import { Subscription } from 'rxjs';
 import { TransactionService } from '../../services/transaction.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogCancel } from './dialog-cencel.component';
 
 export interface IsError {
   message: string
@@ -71,6 +73,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private transactionService: TransactionService,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private router: Router
     ) {}
 
@@ -113,6 +116,18 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
         this.transactionForm.reset()
       })
     }
+  }
+
+  onCancel() {
+    const dialogRef = this.dialog.open(DialogCancel, {
+      panelClass: ['warn']
+    })
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.transactionForm.reset();
+      }
+    })
   }
 
   protected typeValidation(): IsError {
