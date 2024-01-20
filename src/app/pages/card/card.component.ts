@@ -17,7 +17,7 @@ export class CardComponent implements OnInit, OnDestroy {
   open: boolean = false;
   accounts: Account[] = [];
   subscription: Subscription = new Subscription();
-  switchAccount!: Account; 
+  switchAccount!: Account;
 
   constructor(private accountService: AccountService, private router: Router) {}
 
@@ -57,7 +57,6 @@ export class CardComponent implements OnInit, OnDestroy {
 
   onSwitchAccount(account: Account) {
     this.accountService.switchAccount.next(account);
-    console.log(this.switchAccount);
   }
 
   closeCreateAccountPopup() {
