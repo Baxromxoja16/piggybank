@@ -87,6 +87,24 @@
   flex-direction: column;
   gap: 24px;
 
+  &::-webkit-scrollbar {
+    width: 5px;
+    margin-left: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #acacff;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9393ff;
+  }
+  overflow: auto;
+  max-height: 68vh;
+
   .transaction-card {
     height: 91px;
     flex-shrink: 0;
