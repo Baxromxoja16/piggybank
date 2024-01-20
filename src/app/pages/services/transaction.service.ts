@@ -15,23 +15,23 @@ export class TransactionService {
     Authorization: this.token,
   };
 
-  accountId$: Subject<Account> = new Subject();
-  accountId = '';
+  account$: Subject<Account> = new Subject();
+  account!: Account;
 
   constructor(private http: HttpClient) {
-    this.accountId$.subscribe(account => this.accountId = account._id);
+    this.account$.subscribe(account => this.account = account);
   }
 
   getTransactions(): Observable<ITransaction[]> {
-    return this.http.get<ITransaction[]>(this.baseUrl + this.accountId,  { headers: this.headers });
+    return this.http.get<ITransaction[]>(this.baseUrl + this.account._id,  { headers: this.headers });
   }
 
   getTransaction(id: string) {
-    return this.http.get(this.baseUrl + this.accountId + id,  { headers: this.headers });
+    return this.http.get(this.baseUrl + this.account._id + id,  { headers: this.headers });
   }
 
   createTransaction(transaction: ITransaction): Observable<ITransaction> {
-    return this.http.post<ITransaction>(this.baseUrl + this.accountId, transaction, { headers: this.headers });
+    return this.http.post<ITransaction>(this.baseUrl + this.account._id, transaction, { headers: this.headers });
   }
 
   editTransaction() {}

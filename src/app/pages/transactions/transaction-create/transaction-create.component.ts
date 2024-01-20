@@ -32,7 +32,7 @@ export interface ITransaction {
   description: string
   amount:number
   date:Date
-  accountId:string
+  account:string
 }
 
 @Component({
@@ -78,7 +78,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     ) {}
 
   ngOnInit(): void {
-    this.getActiveAccountID();    
+    this.getActiveAccountID();
   }
 
   transactionForm: FormGroup = new FormGroup({
@@ -97,7 +97,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
       Validators.pattern(/^\d+(\.\d{0,2})?$/)
     ]),
     date: new FormControl('', [Validators.required, this.dateValidation]),
-    accountId: new FormControl('', Validators.required)
+    account: new FormControl('', Validators.required)
   });
 
 
@@ -132,7 +132,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
 
   protected typeValidation(): IsError {
     const formControl = this.transactionForm.get('type');
-    
+
     if (formControl?.errors?.['required'] && formControl?.touched) {
       return {message: `Transaction type is required field`, isError: true};
     }
@@ -144,7 +144,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
 
     if (formControl?.errors?.['required'] && formControl?.touched) {
       return {message: `Title is required field`, isError: true};
-    } 
+    }
     else if (maxLength?.actualLength > maxLength?.requiredLength && formControl?.touched) {
       return {message: `The maximum length should be ${maxLength?.requiredLength}, actualy length ${maxLength?.actualLength}`, isError: true};
     }
@@ -153,7 +153,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   protected categoryValidation(): IsError {
     const formControl = this.transactionForm.get('category');
     formControl?.setValue(this.toppings.value)
-    
+
     if (formControl?.errors?.['required'] && this.toppings?.touched) {
       return {message: `Category is required field`, isError: true};
     }
@@ -161,7 +161,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   }
   protected amountValidation(): IsError {
     const formControl = this.transactionForm.get('amount');
-    
+
     if (formControl?.errors?.['required'] && formControl?.touched) {
       return {message: `Amount is required field`, isError: true};
     } else if (formControl?.errors?.['pattern']?.requiredPattern && formControl.touched) {
@@ -176,8 +176,8 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     const getAccounts = this.accountService.getAccounts().subscribe()
 
     const activeAccount = this.accountService.switchAccount.subscribe(activeAccount => {
-      this.transactionService.accountId$.next(activeAccount)
-      this.transactionForm.get('accountId')?.setValue(activeAccount._id)
+      this.transactionService.account$.next(activeAccount)
+      this.transactionForm.get('account')?.setValue(activeAccount._id)
     })
 
     this.subscription.add(getAccounts)

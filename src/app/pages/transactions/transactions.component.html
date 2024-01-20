@@ -29,7 +29,7 @@
     @if (transactions.length >= 0) {
       @for (transaction of transactions; track $index) {
         <div class="transaction-card">
-            <button class="btn card-left">Home</button>
+            <button class="btn card-left">{{transaction.categories[0] || 'Home'}}</button>
             <div class="card-center">
                 <h4>{{transaction.title}}</h4>
                 <div class="card-time">
@@ -42,12 +42,12 @@
                           <img src="../../../../assets/images/Arrow-bottom.svg" alt="">
                         }
                     </span>
-                    <p>{{transaction.type | uppercase}}  · {{transaction.createdAt | date : 'shortDate'}}</p>
+                    <p>{{transaction.type | uppercase}}  · {{transaction.createdAt | date : 'shortDate'}} · {{account.title}}</p>
                 </div>
             </div>
             <span
               [ngClass]="{'red': transaction.type === 'expense', 'yellow': transaction.type === 'income'}"
-              class="price red">{{transaction.amount}}</span>
+              class="price red">{{transaction.amount}}{{account.sign}}</span>
         </div>
       }
     } @else {

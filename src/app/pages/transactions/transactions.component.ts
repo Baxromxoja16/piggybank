@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TransactionCreateComponent } from './transaction-create/transaction-create.component';
 import { RouterOutlet } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
-import { AccountService } from '../services/account.service';
+import { Account, AccountService } from '../services/account.service';
 import { Subscription } from 'rxjs';
 import { ITransaction } from './transaction.model';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   transactions: ITransaction[] = []
 
+  account!: Account;
+
   constructor(private transactionService: TransactionService, private accountService: AccountService) {}
 
   ngOnInit(): void {
@@ -26,6 +28,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.transactionService.getTransactions().subscribe((transactions: ITransaction[]) => {
         this.transactions = transactions
+        this.account = this.transactionService.account
       })
     }, 500);
   }
@@ -38,7 +41,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     const getAccounts = this.accountService.getAccounts().subscribe()
 
     const activeAccount = this.accountService.switchAccount.subscribe(activeAccount => {
-      this.transactionService.accountId$.next(activeAccount)
+      this.transactionService.account$.next(activeAccount)
     })
 
     this.subscription.add(getAccounts)
