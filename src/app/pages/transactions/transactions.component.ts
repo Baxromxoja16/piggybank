@@ -19,6 +19,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   transactions: ITransaction[] = []
 
+  unfiltered: ITransaction[] = [];
+
   account!: Account;
 
   constructor(private transactionService: TransactionService, private accountService: AccountService) {}
@@ -29,12 +31,25 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       this.transactionService.getTransactions().subscribe((transactions: ITransaction[]) => {
         this.transactions = transactions
         this.account = this.transactionService.account
+        this.unfiltered = this.transactions
       })
     }, 500);
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
+  }
+
+  onSorted(type: string) {
+    if (type === 'income') {
+      this.transactions = this.unfiltered.filter((trans) => trans.type === 'income');
+    } else {
+      this.transactions = this.unfiltered.filter((trans) => trans.type === 'expense');
+    }
+  }
+
+  defaultSort() {
+    this.transactions = this.unfiltered;
   }
 
   private getActiveAccountID() {

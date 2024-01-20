@@ -72,13 +72,19 @@
 
 .sorting {
   display: flex;
-  align-items: center;
-  gap: 8px;
   margin: 7px 0 10px 18px;
 
-  .date {
-    color: #474747;
-    font-size: 18px;
+  .trans_date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    cursor: pointer;
+
+    .date {
+      color: #474747;
+      font-size: 18px;
+    }
   }
 }
 
