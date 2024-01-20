@@ -26,32 +26,33 @@
   </div>
 
   <div class="transaction-cards">
-    <div class="transaction-card">
-        <button class="btn card-left">Home</button>
-        <div class="card-center">
-            <h4>Flat rent for March</h4>
-            <div class="card-time">
-                <span class="circle red">
-                    <img src="../../../../assets/images/Arrow-top.svg" alt="">
-                </span>
-                <p>Expenses  ·  28.02.2022  ·  John Smith</p>
+    @if (transactions.length >= 0) {
+      @for (transaction of transactions; track $index) {
+        <div class="transaction-card">
+            <button class="btn card-left">Home</button>
+            <div class="card-center">
+                <h4>{{transaction.title}}</h4>
+                <div class="card-time">
+                    <span
+                      [ngClass]="{'red': transaction.type === 'expense', 'yellow': transaction.type === 'income'}"
+                      class="circle red">
+                        @if (transaction.type === 'expense') {
+                          <img src="../../../../assets/images/Arrow-top.svg" alt="">
+                        } @else {
+                          <img src="../../../../assets/images/Arrow-bottom.svg" alt="">
+                        }
+                    </span>
+                    <p>{{transaction.type | uppercase}}  · {{transaction.createdAt | date : 'shortDate'}}</p>
+                </div>
             </div>
+            <span
+              [ngClass]="{'red': transaction.type === 'expense', 'yellow': transaction.type === 'income'}"
+              class="price red">{{transaction.amount}}</span>
         </div>
-        <span class="price red">-650.00$</span>
-    </div>
-    <div class="transaction-card">
-        <button class="btn card-left">Home</button>
-        <div class="card-center">
-            <h4>Salary for February</h4>
-            <div class="card-time">
-                <span class="circle yellow">
-                    <img src="../../../../assets/images/Arrow-bottom.svg" alt="">
-                </span>
-                <p>Income  ·  27.02.2022  ·  John Smith</p>
-            </div>
-        </div>
-        <span class="price yellow">650.00$</span>
-    </div>
+      }
+    } @else {
+      <h1>...loading</h1>
+    }
   </div>
 </div>
 <router-outlet></router-outlet>

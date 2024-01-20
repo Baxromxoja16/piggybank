@@ -19,11 +19,11 @@ export class TransactionService {
   accountId = '';
 
   constructor(private http: HttpClient) {
-    this.accountId$.subscribe(account => this.accountId = account._id);    
+    this.accountId$.subscribe(account => this.accountId = account._id);
   }
 
-  getTransactions() {
-    return this.http.get(this.baseUrl + this.accountId,  { headers: this.headers });
+  getTransactions(): Observable<ITransaction[]> {
+    return this.http.get<ITransaction[]>(this.baseUrl + this.accountId,  { headers: this.headers });
   }
 
   getTransaction(id: string) {

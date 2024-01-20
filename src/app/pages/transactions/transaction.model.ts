@@ -7,4 +7,5 @@ export interface ITransaction {
   categories: string[];
   accountId: string;
   payee?: string;
+  createdAt?: string
 }

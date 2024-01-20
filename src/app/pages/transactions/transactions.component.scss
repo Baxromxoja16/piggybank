@@ -92,6 +92,7 @@
     flex-shrink: 0;
     padding: 12px 18px;
     display: flex;
+    position: relative;
 
     border-radius: 10px;
     background: #f9f9f9;
@@ -146,6 +147,9 @@
     .price {
       font-size: 22px;
       background-color: transparent;
+      position: absolute;
+      right: 20px;
+      top: 10px;
     }
   }
 }
