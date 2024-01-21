@@ -14,7 +14,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
 import { Account, AccountService } from '../../services/account.service';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { TransactionService } from '../../services/transaction.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -55,40 +55,6 @@ export interface ITransaction {
 })
 export class TransactionCreateComponent implements OnInit, OnDestroy {
   category = new FormControl('', Validators.required);
-  toppingList: string[] = [
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-  ];
-  startDate = new Date(1990, 0, 1);
-
-  subscription = new Subscription();
-
-  categories: ICategory[] = []
-
-  submitted = false;
-
-  constructor(
-    private accountService: AccountService,
-    private transactionService: TransactionService,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private router: Router,
-    private categoryService: CategoryService
-    ) {}
-
-  ngOnInit(): void {
-    this.getActiveAccountID();
-
-    const categorySubs = this.categoryService.getCategories().subscribe((categories: ICategory[]) => {
-      this.categories = categories;
-    })
-
-    this.subscription.add(categorySubs);
-  }
 
   transactionForm: FormGroup = new FormGroup({
     type: new FormControl<string>('', Validators.required),
@@ -109,6 +75,41 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     account: new FormControl('', Validators.required)
   });
 
+  startDate = new Date(1990, 0, 1);
+
+  subscription = new Subscription();
+
+  categories: ICategory[] = []
+
+  submitted = false;
+
+  allCategories: ICategory[] = [];
+
+  constructor(
+    private accountService: AccountService,
+    private transactionService: TransactionService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private router: Router,
+    private categoryService: CategoryService
+    ) {
+      this.transactionForm.get('type')!.valueChanges.pipe(
+        tap((type) => {
+          this.categories = this.allCategories.filter(cat => cat.type === type)
+        })
+      ).subscribe()
+    }
+
+  ngOnInit(): void {
+    this.getActiveAccountID();
+
+    const categorySubs = this.categoryService.getCategories().subscribe((categories: ICategory[]) => {
+      this.categories = categories;
+      this.allCategories = categories;
+    })
+
+    this.subscription.add(categorySubs);
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
