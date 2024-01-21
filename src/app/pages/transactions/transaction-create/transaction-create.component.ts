@@ -19,6 +19,7 @@ import { TransactionService } from '../../services/transaction.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCancel } from './dialog-cencel.component';
+import { CategoryService, ICategory } from '../../services/category.service';
 
 export interface IsError {
   message: string
@@ -53,7 +54,7 @@ export interface ITransaction {
   styleUrl: './transaction-create.component.scss',
 })
 export class TransactionCreateComponent implements OnInit, OnDestroy {
-  toppings = new FormControl('', Validators.required);
+  category = new FormControl('', Validators.required);
   toppingList: string[] = [
     'Extra cheese',
     'Mushroom',
@@ -66,6 +67,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
 
   subscription = new Subscription();
 
+  categories: ICategory[] = []
 
   submitted = false;
 
@@ -74,11 +76,18 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     private transactionService: TransactionService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private categoryService: CategoryService
     ) {}
 
   ngOnInit(): void {
     this.getActiveAccountID();
+
+    const categorySubs = this.categoryService.getCategories().subscribe((categories: ICategory[]) => {
+      this.categories = categories;
+    })
+
+    this.subscription.add(categorySubs);
   }
 
   transactionForm: FormGroup = new FormGroup({
@@ -88,7 +97,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
       Validators.maxLength(128),
       this.noDotsAtEndValidator,
     ]),
-    category: new FormControl(this.toppings.value, Validators.required),
+    categories: new FormControl(this.category.value, Validators.required),
     description: new FormControl<string>('', Validators.max(256)),
     amount: new FormControl<number | null>(null, [
       Validators.required,
@@ -106,6 +115,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log(this.transactionForm.value);
     if (this.transactionForm.valid) {
       this.transactionService.createTransaction(this.transactionForm.value).subscribe((data) => {
         this.snackBar.open(`${data.type} transaction has been successfully added!`, 'Close', {
@@ -151,10 +161,10 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
     return {message: '', isError: false};
   }
   protected categoryValidation(): IsError {
-    const formControl = this.transactionForm.get('category');
-    formControl?.setValue(this.toppings.value)
+    const formControl = this.transactionForm.get('categories');
+    formControl?.setValue(this.category.value)
 
-    if (formControl?.errors?.['required'] && this.toppings?.touched) {
+    if (formControl?.errors?.['required'] && this.category?.touched) {
       return {message: `Category is required field`, isError: true};
     }
     return {message: '', isError: false};

@@ -20,7 +20,7 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   getCategories() {
-    return this.http.get(this.baseUrl, { headers: this.headers })
+    return this.http.get<ICategory[]>(this.baseUrl, { headers: this.headers })
   }
 
   getCategoryById(id: string) {
