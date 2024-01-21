@@ -23,16 +23,20 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   account!: Account;
 
-  constructor(private transactionService: TransactionService, private accountService: AccountService) {}
+  constructor(
+    private transactionService: TransactionService,
+    private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.getActiveAccountID()
     setTimeout(() => {
-      this.transactionService.getTransactions().subscribe((transactions: ITransaction[]) => {
+      const transactionSubs = this.transactionService.getTransactions().subscribe((transactions: ITransaction[]) => {
         this.transactions = transactions
         this.account = this.transactionService.account
         this.unfiltered = this.transactions
       })
+
+      this.subscription.add(transactionSubs);
     }, 500);
   }
 
