@@ -18,6 +18,7 @@
         cursor: pointer;
         display: flex;
         flex-direction: column;
+        text-decoration: none;
         &::after {
           content: "";
           display: block;
@@ -120,6 +121,7 @@
 
     border-radius: 10px;
     background: #f9f9f9;
+    text-decoration: none;
 
     .card-left {
       width: 157px;

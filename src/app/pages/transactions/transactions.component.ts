@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TransactionCreateComponent } from './transaction-create/transaction-create.component';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
 import { Account, AccountService } from '../services/account.service';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, RouterModule],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.scss'
 })
@@ -25,7 +25,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private transactionService: TransactionService,
-    private accountService: AccountService) {}
+    private accountService: AccountService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.getActiveAccountID()
@@ -37,7 +38,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
       })
 
       this.subscription.add(transactionSubs);
-    }, 500);
+    }, 1000);
   }
 
   ngOnDestroy(): void {
@@ -54,6 +55,10 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   defaultSort() {
     this.transactions = this.unfiltered;
+  }
+
+  toInfo(transaction: ITransaction) {
+    this.router.navigate(["/main/transaction-info/", transaction._id])
   }
 
   private getActiveAccountID() {

@@ -46,7 +46,7 @@
   <div class="transaction-cards">
     @if (transactions.length >= 0) {
       @for (transaction of transactions; track $index) {
-        <div class="transaction-card">
+        <div class="transaction-card" (click)="toInfo(transaction)">
             <button class="btn card-left">{{transaction.categories[0] || 'Home'}}</button>
             <div class="card-center">
                 <h4>{{transaction.title}}</h4>

@@ -1,1 +1,67 @@
-<p>transaction-info works!</p>
+<a class="overlay" routerLink="/main"></a>
+
+<div class="transaction">
+  <div class="transaction-content">
+    @if (transaction !== undefined) {
+      <div class="top-heading">
+        <h3 class="transaction-title">Transaction Information</h3>
+        <div class="top-actions">
+          <a>
+            <button class="btn">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </a>
+          <button class="btn">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <a routerLink="/main">
+            <button class="btn"><mat-icon>close</mat-icon></button>
+          </a>
+        </div>
+      </div>
+      <div class="transaction__content-info">
+        <div class="info-row-header">
+          <div class="info-amount">
+            <p>
+              <span
+                [ngClass]="{'red': transaction.type === 'expense', 'yellow': transaction.type === 'income'}"
+                class="circle red">
+                  @if (transaction.type === 'expense') {
+                    <img src="../../../../assets/images/Arrow-top.svg" alt="">
+                  } @else {
+                    <img src="../../../../assets/images/Arrow-bottom.svg" alt="">
+                  }
+              </span> {{transaction.type}}
+            </p>
+            <span
+              [ngClass]="{'red': transaction.type === 'expense', 'yellow': transaction.type === 'income'}"
+              class="price red">{{transaction.amount}}{{account.sign}}</span>
+          </div>
+          <h4>{{transaction.title}}</h4>
+          <div class="info-category">
+            @for (category of transaction.categories; track $index) {
+              <button class="card-left">{{category}}</button>
+            }
+          </div>
+        </div>
+        <div class="info-row">
+          <p class="info-header">Payment Date:</p>
+          <p class="info-text">{{ transaction.createdAt | date : 'mediumDate' }}</p>
+        </div>
+        <hr>
+        <div class="info-row">
+          <p class="info-header">Payee:</p>
+          <p class="info-text">{{ transaction.payee }}</p>
+        </div>
+        <hr>
+        <div class="info-row">
+          <p class="info-header">Description:</p>
+          <p class="info-text">{{ transaction.description }}</p>
+        </div>
+      </div>
+    }
+    @else {
+      <mat-spinner></mat-spinner>
+    }
+  </div>
+</div>

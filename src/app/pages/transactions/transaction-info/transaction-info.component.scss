@@ -1,0 +1,115 @@
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.transaction {
+  min-height: 100vh;
+  font-family: "Space Grotesk";
+  color: #373737;
+  z-index: 3;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: #fff;
+
+  .transaction-content {
+    min-height: 100vh;
+    padding: 34px 34px 28px;
+    display: flex;
+    flex-direction: column;
+
+    &-bottom {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 10px;
+
+      .info-header {
+        font-weight: 700;
+      }
+    }
+
+    .transaction__content-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .top-heading {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 34px;
+      gap: 10px;
+    }
+    &-title {
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 41px;
+    }
+    .btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+    }
+
+
+    .info-row-header {
+      margin-bottom: 20px;
+
+      h4 {
+        text-transform: capitalize;
+        font-size: 26px;
+        margin: 15px 0;
+      }
+
+      .info-amount {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .price {
+          background-color: transparent;
+          font-size: 30px;
+        }
+
+        p {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          text-transform: capitalize;
+          font-size: 20px;
+        }
+      }
+
+      .card-left {
+        width: 157px;
+        height: 65px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        background: #eceded;
+
+        color: #373737;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+        border: none;
+        margin-right: 21px;
+      }
+    }
+  }
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+}

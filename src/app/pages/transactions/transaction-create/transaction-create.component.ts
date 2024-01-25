@@ -116,7 +116,6 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.transactionForm.value);
     if (this.transactionForm.valid) {
       this.transactionService.createTransaction(this.transactionForm.value).subscribe((data) => {
         this.snackBar.open(`${data.type} transaction has been successfully added!`, 'Close', {

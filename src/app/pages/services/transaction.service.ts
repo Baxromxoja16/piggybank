@@ -27,7 +27,7 @@ export class TransactionService {
   }
 
   getTransaction(id: string) {
-    return this.http.get(this.baseUrl + this.account._id + id,  { headers: this.headers });
+    return this.http.get<ITransaction>(this.baseUrl + this.account._id + '/' + id,  { headers: this.headers });
   }
 
   createTransaction(transaction: ITransaction): Observable<ITransaction> {
