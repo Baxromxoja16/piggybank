@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs'
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
 import { ITransaction } from '../transaction.model';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,7 +28,8 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
   constructor(
     private transactionService: TransactionService,
     private accountService: AccountService,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')!;
@@ -41,6 +42,15 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
     }
     this.account = this.accountService.switchAccountSig();
 
+  }
+
+  deleteTransaction(transaction: ITransaction) {
+    const deleteTra = this.transactionService.deleteTransaction(transaction._id as string).subscribe((transaction) => {
+      console.log(transaction);
+      this.router.navigate(['/main']);
+    });
+
+    this.subscription.add(deleteTra);
   }
 
   ngOnDestroy(): void {

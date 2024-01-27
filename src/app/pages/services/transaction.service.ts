@@ -41,5 +41,11 @@ export class TransactionService {
 
   editTransaction() {}
 
-  deleteTransaction() {}
+  deleteTransaction(id: string) {
+    return this.http.delete(this.baseUrl + this.accountService.switchAccountSig()._id + '/' + id, { headers: this.headers }).pipe(
+      tap(() => {
+        this.transactions.set(this.transactions().filter((tr) => tr._id !== id));
+      })
+    );
+  }
 }
