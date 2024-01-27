@@ -9,6 +9,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Account, AccountService } from '../../services/account.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogTransaction } from './dialog-transaction';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-transaction-info',
@@ -37,7 +39,8 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
     private accountService: AccountService,
     private route: ActivatedRoute,
     private router: Router,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')!;
@@ -53,11 +56,21 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
   }
 
   deleteTransaction(transaction: ITransaction) {
-    const deleteTra = this.transactionService.deleteTransaction(transaction._id as string).subscribe((transaction) => {
-      this.router.navigate(['/main']);
-    });
+    const dialogRef = this.dialog.open(DialogTransaction);
 
-    this.subscription.add(deleteTra);
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        const deleteTra = this.transactionService.deleteTransaction(transaction._id as string).subscribe((transaction) => {
+          const message = 'Transaction deleted!'
+          this.snackBar.open(message, 'Close', {
+            duration: 4000,
+          });
+          this.router.navigate(['/main']);
+        });
+        this.subscription.add(deleteTra);
+      }
+    })
+
   }
 
   editTransaction() {
