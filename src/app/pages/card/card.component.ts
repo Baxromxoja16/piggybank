@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, WritableSignal } from '@angular/core';
 import { CreateAccountComponent } from './create-account/create-account.component';
 
 import { Router, RouterModule } from '@angular/router';
@@ -17,7 +17,7 @@ export class CardComponent implements OnInit, OnDestroy {
   open: boolean = false;
   accounts: Account[] = [];
   subscription: Subscription = new Subscription();
-  switchAccount!: Account;
+  switchAccount: WritableSignal<Account> = this.accountService.switchAccountSig;
 
   constructor(private accountService: AccountService, private router: Router) {}
 
@@ -33,14 +33,9 @@ export class CardComponent implements OnInit, OnDestroy {
       .getAccounts()
       .subscribe((data: Account[]) => {
         this.accounts = data;
+        this.switchAccount = this.accountService.switchAccountSig
       });
 
-    const switchAccount = this.accountService.switchAccount
-    .subscribe((account) => {
-      this.switchAccount = account
-    })
-
-    this.subscription.add(switchAccount);
     this.subscription.add(getAccount);
   }
 
@@ -56,7 +51,7 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   onSwitchAccount(account: Account) {
-    this.accountService.switchAccount.next(account);
+    this.accountService.switchAccountSig.set(account);
   }
 
   closeCreateAccountPopup() {

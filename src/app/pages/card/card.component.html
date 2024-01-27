@@ -4,12 +4,12 @@
   <div class="cards">
     @for (account of accounts; track account.balance) {
       <div class="card" (click)="onSwitchAccount(account)"
-        [ngClass]="account._id === switchAccount._id ? 'active' : ''">
+        [ngClass]="account._id === switchAccount()._id ? 'active' : ''">
         <h3>{{account.title}}</h3>
         <p>{{account.balance}}</p>
         <span class="currency"> {{account.sign}} </span>
         <a [routerLink]="['/main/account-info/', account._id]"
-          [ngStyle]="{'opacity': account._id !== switchAccount._id ? '0' : '1'}"
+          [ngStyle]="{'opacity': account._id !== switchAccount()._id ? '0' : '1'}"
         >Details</a>
       </div>
     }
@@ -19,7 +19,7 @@
     </a>
   </div>
 </div>
-<!-- 
+<!--
 @if (open) {
   <app-create-account ></app-create-account>
 } -->

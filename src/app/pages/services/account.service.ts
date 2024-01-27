@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, map, tap } from 'rxjs';
 
@@ -32,6 +32,8 @@ export class AccountService {
 
   switchAccount: Subject<Account> = new Subject();
 
+  switchAccountSig = signal<Account>({} as Account);
+
   constructor(private http: HttpClient) {}
 
   private updateAccounts() {
@@ -46,7 +48,8 @@ export class AccountService {
     return this.http.get<Account[]>(this.baseUrl, {headers: this.headers}).pipe(
       tap(accounts => {
         this.accounts = accounts;
-        this.switchAccount.next(accounts[0])
+        this.switchAccount.next(accounts[0]);
+        this.switchAccountSig.set(accounts[0]);
       }),
     );
   }
