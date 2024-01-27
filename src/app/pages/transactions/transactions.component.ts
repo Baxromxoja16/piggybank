@@ -20,7 +20,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   unfiltered: WritableSignal<ITransaction[]> = this.transactionService.unfiltered
 
-  account: WritableSignal<Account> = signal(this.accountService.switchAccountSig())
+  account: WritableSignal<Account> = this.accountService.switchAccountSig
 
   constructor(
     private transactionService: TransactionService,
