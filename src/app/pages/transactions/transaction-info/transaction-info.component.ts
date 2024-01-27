@@ -6,7 +6,7 @@ import { ITransaction } from '../transaction.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Account } from '../../services/account.service';
+import { Account, AccountService } from '../../services/account.service';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -27,6 +27,7 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
 
   constructor(
     private transactionService: TransactionService,
+    private accountService: AccountService,
     private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -38,7 +39,7 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
 
       this.subscription.add(getTransaction);
     }
-    this.account = this.transactionService.account
+    this.account = this.accountService.switchAccountSig();
 
   }
 

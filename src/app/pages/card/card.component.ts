@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Subscription, take, takeLast } from 'rxjs';
 import { Account, AccountService } from '../services/account.service';
 import { CommonModule } from '@angular/common';
+import { TransactionService } from '../services/transaction.service';
 
 @Component({
   selector: 'app-card',
@@ -19,16 +20,9 @@ export class CardComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   switchAccount: WritableSignal<Account> = this.accountService.switchAccountSig;
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private accountService: AccountService, private router: Router, private transactionService: TransactionService) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.accountService.accountsChanged
-        .subscribe((accounts) => {
-          this.accounts = accounts;
-        })
-    );
-
     const getAccount = this.accountService
       .getAccounts()
       .subscribe((data: Account[]) => {
@@ -52,6 +46,8 @@ export class CardComponent implements OnInit, OnDestroy {
 
   onSwitchAccount(account: Account) {
     this.accountService.switchAccountSig.set(account);
+    localStorage.setItem('account', JSON.stringify(this.accountService.switchAccountSig()));
+    this.transactionService.getTransactions().subscribe();
   }
 
   closeCreateAccountPopup() {

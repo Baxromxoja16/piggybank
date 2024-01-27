@@ -44,8 +44,8 @@
   </div>
 
   <div class="transaction-cards">
-    @if (transactions.length >= 0) {
-      @for (transaction of transactions; track $index) {
+    @if (transactions.length <= 0) {
+      @for (transaction of transactions(); track $index) {
         <div class="transaction-card" (click)="toInfo(transaction)">
             <button class="btn card-left">{{transaction.categories[0] || 'Home'}}</button>
             <div class="card-center">
@@ -60,12 +60,12 @@
                           <img src="../../../../assets/images/Arrow-bottom.svg" alt="">
                         }
                     </span>
-                    <p>{{transaction.type | uppercase}}  · {{transaction.createdAt | date : 'shortDate'}} · {{account.title}}</p>
+                    <p>{{transaction.type | uppercase}}  · {{transaction.createdAt | date : 'shortDate'}} · {{account().title}}</p>
                 </div>
             </div>
             <span
               [ngClass]="{'red': transaction.type === 'expense', 'yellow': transaction.type === 'income'}"
-              class="price red">{{transaction.amount}}{{account.sign}}</span>
+              class="price red">{{transaction.amount}}{{account().sign}}</span>
         </div>
       }
     } @else {

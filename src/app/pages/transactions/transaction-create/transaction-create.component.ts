@@ -184,14 +184,10 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
 
   private getActiveAccountID() {
     const getAccounts = this.accountService.getAccounts().subscribe()
-
-    const activeAccount = this.accountService.switchAccount.subscribe(activeAccount => {
-      this.transactionService.account$.next(activeAccount)
-      this.transactionForm.get('account')?.setValue(activeAccount._id)
-    })
+    const activeAccount = this.accountService.switchAccountSig()
+    this.transactionForm.get('account')?.setValue(activeAccount._id)
 
     this.subscription.add(getAccounts)
-    this.subscription.add(activeAccount);
   }
 
   protected dateValidationForHTML(): IsError {

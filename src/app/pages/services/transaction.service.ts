@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Observable, Subject, tap } from 'rxjs';
 import { ITransaction } from '../transactions/transaction.model';
-import { Account } from './account.service';
+import { Account, AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,23 +15,28 @@ export class TransactionService {
     Authorization: this.token,
   };
 
-  account$: Subject<Account> = new Subject();
-  account!: Account;
+  transactions: WritableSignal<ITransaction[]> = signal([]);
 
-  constructor(private http: HttpClient) {
-    this.account$.subscribe(account => this.account = account);
+  unfiltered: WritableSignal<ITransaction[]> = signal([]);
+
+  constructor(private http: HttpClient, private accountService: AccountService) {
   }
 
   getTransactions(): Observable<ITransaction[]> {
-    return this.http.get<ITransaction[]>(this.baseUrl + this.account._id,  { headers: this.headers });
+    return this.http.get<ITransaction[]>(this.baseUrl + this.accountService.switchAccountSig()._id,  { headers: this.headers }).pipe(
+      tap((transactions) => {
+        this.transactions.set(transactions)
+        this.unfiltered.set(transactions)
+      })
+    );
   }
 
   getTransaction(id: string) {
-    return this.http.get<ITransaction>(this.baseUrl + this.account._id + '/' + id,  { headers: this.headers });
+    return this.http.get<ITransaction>(this.baseUrl + this.accountService.switchAccountSig()._id + '/' + id,  { headers: this.headers });
   }
 
   createTransaction(transaction: ITransaction): Observable<ITransaction> {
-    return this.http.post<ITransaction>(this.baseUrl + this.account._id, transaction, { headers: this.headers });
+    return this.http.post<ITransaction>(this.baseUrl + this.accountService.switchAccountSig()._id, transaction, { headers: this.headers });
   }
 
   editTransaction() {}

@@ -28,17 +28,10 @@ export class AccountService {
 
   private accounts: Account[] = [];
 
-  accountsChanged: Subject<Account[]> = new Subject();
-
-  switchAccount: Subject<Account> = new Subject();
-
   switchAccountSig = signal<Account>({} as Account);
 
   constructor(private http: HttpClient) {}
 
-  private updateAccounts() {
-    this.accountsChanged.next([...this.accounts]);
-  }
 
   getAccount(id: string) {
     return this.http.get<Account>(this.baseUrl + id, {headers: this.headers});
@@ -48,8 +41,8 @@ export class AccountService {
     return this.http.get<Account[]>(this.baseUrl, {headers: this.headers}).pipe(
       tap(accounts => {
         this.accounts = accounts;
-        this.switchAccount.next(accounts[0]);
-        this.switchAccountSig.set(accounts[0]);
+        this.switchAccountSig.set(JSON.parse(localStorage.getItem('account')!) || accounts[0]);
+        localStorage.setItem('account', JSON.stringify(this.switchAccountSig()));
       }),
     );
   }
@@ -69,7 +62,6 @@ export class AccountService {
       .post<Account>(this.baseUrl, data, { headers: this.headers }).pipe(
         tap((account) => {
           this.accounts.push(account);
-          this.updateAccounts();
         })
       );
   }
@@ -78,7 +70,6 @@ export class AccountService {
     return this.http.delete(this.baseUrl + id, { headers: this.headers }).pipe(
       tap(() => {
         this.accounts = this.accounts.filter((account) => account._id !== id);
-        this.updateAccounts();
       })
     );
   }

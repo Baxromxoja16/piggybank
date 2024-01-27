@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TransactionCreateComponent } from './transaction-create/transaction-create.component';
+import { Component, DoCheck, OnChanges, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
 import { Account, AccountService } from '../services/account.service';
@@ -17,11 +16,11 @@ import { CommonModule } from '@angular/common';
 export class TransactionsComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
 
-  transactions: ITransaction[] = []
+  transactions: WritableSignal<ITransaction[]> = this.transactionService.transactions
 
-  unfiltered: ITransaction[] = [];
+  unfiltered: WritableSignal<ITransaction[]> = this.transactionService.unfiltered
 
-  account!: Account;
+  account: WritableSignal<Account> = signal(this.accountService.switchAccountSig())
 
   constructor(
     private transactionService: TransactionService,
@@ -29,14 +28,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     private router: Router) {}
 
   ngOnInit(): void {
-    this.getActiveAccountID()
     setTimeout(() => {
-      const transactionSubs = this.transactionService.getTransactions().subscribe((transactions: ITransaction[]) => {
-        this.transactions = transactions
-        this.account = this.transactionService.account
-        this.unfiltered = this.transactions
-      })
-
+      const transactionSubs = this.transactionService.getTransactions().subscribe();
       this.subscription.add(transactionSubs);
     }, 1000);
   }
@@ -47,28 +40,18 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   onSorted(type: string) {
     if (type === 'income') {
-      this.transactions = this.unfiltered.filter((trans) => trans.type === 'income');
+      this.transactions.set(this.unfiltered().filter((trans) => trans.type === 'income'));
     } else {
-      this.transactions = this.unfiltered.filter((trans) => trans.type === 'expense');
+      this.transactions.set(this.unfiltered().filter((trans) => trans.type === 'expense'));
     }
   }
 
   defaultSort() {
-    this.transactions = this.unfiltered;
+    this.transactions.set(this.unfiltered());
   }
 
   toInfo(transaction: ITransaction) {
     this.router.navigate(["/main/transaction-info/", transaction._id])
   }
 
-  private getActiveAccountID() {
-    const getAccounts = this.accountService.getAccounts().subscribe()
-
-    const activeAccount = this.accountService.switchAccount.subscribe(activeAccount => {
-      this.transactionService.account$.next(activeAccount)
-    })
-
-    this.subscription.add(getAccounts)
-    this.subscription.add(activeAccount);
-  }
 }
