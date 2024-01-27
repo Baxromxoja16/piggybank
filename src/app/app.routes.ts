@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { MainComponent } from './pages/main/main.component';
+import { MainComponent as CategoryMain } from './categories/main/main.component';
 import { authGuard } from './auth/guards/auth.guard';
 import { CreateAccountComponent } from './pages/card/create-account/create-account.component';
 import { AccountInfoComponent } from './pages/card/account-info/account-info.component';
@@ -21,5 +22,6 @@ export const routes: Routes = [
     { path: 'transaction-create', component: TransactionCreateComponent },
     { path: 'transaction-info/:id', component: TransactionInfoComponent }
   ] },
+  { path: 'categories', canActivate: [authGuard], component: CategoryMain, children:[] }
 
 ];
