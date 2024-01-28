@@ -1,6 +1,4 @@
 <div class="cards-page">
-  <a routerLink="/main" class="logo">Budgetify</a>
-
   <div class="cards">
     @for (account of accounts; track account.balance) {
       <div class="card" (click)="onSwitchAccount(account)"
