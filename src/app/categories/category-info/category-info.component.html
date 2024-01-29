@@ -1,28 +1,36 @@
 <div class="container">
-  <div class="category-info">
-    <app-search-field></app-search-field>
-    <div class="categories">
-      @if (categories().length > 0) {
-        @for (item of categories(); track $index) {
-          <div class="category-btn"
-          [ngClass]="{
-            'expense-btn': item.type === 'expense',
-            'income-btn': item.type === 'income'
-            }">
-            <p class="btn-title">{{item.title}}</p>
-            <a>
+  <div class="row">
+    <div class="category-info">
+      <app-search-field></app-search-field>
+      <div class="categories">
+        @if (categories().length > 0) {
+          @for (item of categories(); track $index) {
+            <div class="category-btn"
+            [ngClass]="{
+              'expense-btn': item.type === 'expense',
+              'income-btn': item.type === 'income'
+              }">
+              <p class="btn-title">{{item.title}}</p>
+              <a>
+                <button class="btn">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </a>
               <button class="btn">
-                <mat-icon>edit</mat-icon>
+                <mat-icon>delete</mat-icon>
               </button>
-            </a>
-            <button class="btn">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
+            </div>
+          }
+        } @else {
+          <p class="text">You don't have any category please <a routerLink="/main/categories/create-category">add categories</a></p>
         }
-      } @else {
-        <p class="text">You don't have any category please <a routerLink="/main/categories/create-category">add categories</a></p>
-      }
+      </div>
+    </div>
+    <div class="category-menu">
+      <a routerLink="/categories/create-category" class="card light-blue" >
+        <span class="circle white"> + </span>
+        <p>Add Category</p>
+      </a>
     </div>
   </div>
 </div>

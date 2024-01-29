@@ -1,3 +1,7 @@
+.row {
+  display: flex;
+  justify-content: space-between;
+}
 
 .text {
   font-size: 25px;
@@ -6,6 +10,7 @@
 }
 
 .category-info {
+  width: 70%;
 
   .categories {
     display: flex;
@@ -38,4 +43,34 @@
 }
 .expense-btn {
   border-color: #ee3f19;
+}
+
+.category-menu {
+  width: 20%;
+
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    height: 49px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    padding: 6px 11px 8px;
+
+    span {
+      color: #86c9cf;
+      font-size: 40px;
+    }
+    p {
+      color: #373737;
+      font-family: Space Grotesk;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+
+      margin: 0;
+    }
+  }
 }
