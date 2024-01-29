@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, WritableSignal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -20,11 +21,23 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
 
   categories: WritableSignal<ICategory[]> = this.categoryService.categories
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     const getCategories = this.categoryService.getCategories().subscribe();
     this.subscription.add(getCategories);
+  }
+
+  deleteCategory(id: string) {
+    const deleteCategory = this.categoryService.deleteCategory(id).subscribe(
+      () => {
+        const message = 'Category deleted!'
+        this.snackBar.open(message, 'Close', {
+          duration: 4000,
+        });
+      }
+    );
+    this.subscription.add(deleteCategory);
   }
 
   ngOnDestroy(): void {

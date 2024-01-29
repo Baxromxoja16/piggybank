@@ -3,6 +3,7 @@ import { Injectable, WritableSignal, signal } from '@angular/core';
 import { tap } from 'rxjs';
 
 export interface ICategory {
+  _id: string
   type: string
   title: string
 }
@@ -41,6 +42,11 @@ export class CategoryService {
   }
 
   deleteCategory(id: string) {
-    return this.http.put(this.baseUrl + id, { headers: this.headers })
+    return this.http.delete(this.baseUrl + id, { headers: this.headers }).pipe(
+      tap(() => {
+        const changed = this.categories().filter((val) => val._id !== id)
+        this.categories.set(changed);
+      })
+    )
   }
 }

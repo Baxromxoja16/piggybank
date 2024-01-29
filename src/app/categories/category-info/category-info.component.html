@@ -11,12 +11,10 @@
               'income-btn': item.type === 'income'
               }">
               <p class="btn-title">{{item.title}}</p>
-              <a>
-                <button class="btn">
-                  <mat-icon>edit</mat-icon>
-                </button>
-              </a>
               <button class="btn">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button class="btn" (click)="deleteCategory(item._id)">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
