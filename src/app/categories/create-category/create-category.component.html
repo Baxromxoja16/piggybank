@@ -1,1 +1,64 @@
-<p>create-category works!</p>
+<div class="create-category">
+  <form [formGroup]="createForm" (submit)="onSubmit()">
+    <div class="form-header">
+      <h2>Create Category</h2>
+      <img
+        (click)="close()"
+        src="../../../../assets/images/OOjs_UI_icon_close-ltr 1.png"
+        alt=""
+        class="close"
+      />
+    </div>
+
+    <div class="form-field">
+      <mat-button-toggle-group formControlName="type">
+        <mat-button-toggle value="expense">
+          <p class="toggle-button-text">
+            Expense
+          <span class="circle red">
+            <img src="../../../../assets/images/Arrow-top.svg" alt="">
+
+          </span>
+          </p>
+        </mat-button-toggle>
+        <mat-button-toggle value="income">
+          <p class="toggle-button-text">
+            Income
+            <span class="circle yellow">
+              <img src="../../../../assets/images/Arrow-bottom.svg" alt="">
+            </span>
+          </p>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="form-field">
+      <label for="title" class="label">Title</label>
+      <input
+        type="title"
+        formControlName="title"
+        id="title"
+        appUp
+        class="input"
+      />
+    </div>
+    @if( createForm.controls['title'].errors?.['required'] &&
+    createForm.get('title')?.touched ) {
+
+    <span class="help-block">Required file is empty</span>
+
+    } @else if(createForm.controls['title'].errors?.['pattern'] &&
+    createForm.get('title')?.touched ){
+
+    <span class="help-block">Please enter a valid Title</span>
+
+    }
+
+    <div class="form-field" style="display: flex; gap: 10px">
+      <input type="button" class="btn btn-cancel" value="Cancel" />
+      <hr>
+      <input type="submit" class="btn btn-cancel" value="Save" />
+    </div>
+  </form>
+</div>
+<div class="black-bg" (click)="close()"></div>
