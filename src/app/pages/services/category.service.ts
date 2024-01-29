@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
+import { tap } from 'rxjs';
 
 export interface ICategory {
   type: string
@@ -17,10 +18,14 @@ export class CategoryService {
     Authorization: this.token,
   };
 
+  categories: WritableSignal<ICategory[]> = signal([]);
+
   constructor(private http: HttpClient) { }
 
   getCategories() {
-    return this.http.get<ICategory[]>(this.baseUrl, { headers: this.headers })
+    return this.http.get<ICategory[]>(this.baseUrl, { headers: this.headers }).pipe(
+      tap((categories) => this.categories.set(categories))
+    )
   }
 
   getCategoryById(id: string) {
