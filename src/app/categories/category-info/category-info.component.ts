@@ -1,4 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, WritableSignal, signal } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { CategoryService, ICategory } from '../../pages/services/category.service';
@@ -7,7 +11,7 @@ import { SearchFieldComponent } from '../../shared/components/search-field/searc
 @Component({
   selector: 'app-category-info',
   standalone: true,
-  imports: [SearchFieldComponent],
+  imports: [SearchFieldComponent, MatProgressSpinnerModule, RouterLink, MatIconModule, CommonModule],
   templateUrl: './category-info.component.html',
   styleUrl: './category-info.component.scss'
 })
