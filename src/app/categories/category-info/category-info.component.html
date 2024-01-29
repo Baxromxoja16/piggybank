@@ -10,10 +10,19 @@
               'expense-btn': item.type === 'expense',
               'income-btn': item.type === 'income'
               }">
-              <p class="btn-title">{{item.title}}</p>
-              <button class="btn">
-                <mat-icon>edit</mat-icon>
-              </button>
+              @if (editCategoryId === item._id) {
+                <form [formGroup]="createForm" (submit)="onSubmit()">
+                  <input type="text" class="btn-title" formControlName="title">
+                  <button type="submit" class="btn">
+                    <mat-icon>done</mat-icon>
+                  </button>
+                </form>
+              } @else {
+                <p class="btn-title">{{item.title}}</p>
+                <button class="btn" (click)="editCategory(item)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
               <button class="btn" (click)="deleteCategory(item._id)">
                 <mat-icon>delete</mat-icon>
               </button>
