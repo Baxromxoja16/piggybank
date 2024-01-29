@@ -25,6 +25,7 @@ export const routes: Routes = [
     { path: 'transaction-info/:id', component: TransactionInfoComponent }
   ] },
   { path: 'categories', canActivate: [authGuard], component: CategoryMain, children:[
+    { path: '', component: CategoryInfoComponent },
     { path: 'create-category', component: CreateCategoryComponent },
     { path: 'category-info', component: CategoryInfoComponent },
   ] }
