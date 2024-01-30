@@ -22,16 +22,27 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   account: WritableSignal<Account> = this.accountService.switchAccountSig
 
+  time = 500;
+
   constructor(
     private transactionService: TransactionService,
     private accountService: AccountService,
-    private router: Router) {}
+    private router: Router) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
+    this.checkAccount()
+  }
+
+  private checkAccount() {
+    const accountSig = this.account();
+
+    if (!accountSig._id) {
+      this.time += 300;
+      setTimeout(() => this.checkAccount(), this.time);
+    } else {
       const transactionSubs = this.transactionService.getTransactions().subscribe();
       this.subscription.add(transactionSubs);
-    }, 1800);
+    }
   }
 
   ngOnDestroy(): void {
