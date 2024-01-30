@@ -50,7 +50,7 @@ export class AccountService {
   }
 
   getCurrencies() {
-    return this.http.get(`http://localhost:3000/currency`, { headers: this.headers }).pipe(
+    return this.http.get(environment.apiUrl + `currency`, { headers: this.headers }).pipe(
       map((values: any) => {
         return values.map((c: { code: string; symbol: string }) => {
           return { code: c.code, sign: c.symbol };

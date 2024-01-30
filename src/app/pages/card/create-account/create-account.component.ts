@@ -58,7 +58,6 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
     this.accountService.getCurrencies().subscribe((currencies) => {
       this.currencies = currencies;
-      
     })
 
     this.formInit()
@@ -75,7 +74,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
         (account) => {
           this.snackBarMessage(`Card ${(account as Account).title} successful edited`);
           this.createForm.reset()
-          this.router.navigate(['/main']);          
+          this.router.navigate(['/main']);
         }
       );
     } else {
@@ -129,7 +128,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
         Validators.pattern(this.numberReg),
       ]),
     });
-  
+
   }
 
 

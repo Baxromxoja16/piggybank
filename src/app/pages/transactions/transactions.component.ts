@@ -31,7 +31,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       const transactionSubs = this.transactionService.getTransactions().subscribe();
       this.subscription.add(transactionSubs);
-    }, 1000);
+    }, 1800);
   }
 
   ngOnDestroy(): void {
