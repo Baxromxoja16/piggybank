@@ -30,7 +30,7 @@
   </div>
 
   <div class="transaction-cards">
-    @if (transactions.length <= 0) {
+    @if (transactions().length > 0) {
       @for (transaction of transactions(); track $index) {
         <div class="transaction-card" (click)="toInfo(transaction)">
             <button class="btn card-left">{{transaction.categories[0] || 'Home'}}</button>

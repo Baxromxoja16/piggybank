@@ -2,7 +2,7 @@ import { Component, DoCheck, OnChanges, OnDestroy, OnInit, signal, WritableSigna
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
 import { Account, AccountService } from '../services/account.service';
-import { Subscription } from 'rxjs';
+import { finalize, interval, Subscription, takeWhile } from 'rxjs';
 import { ITransaction } from './transaction.model';
 import { CommonModule } from '@angular/common';
 
@@ -22,7 +22,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   account: WritableSignal<Account> = this.accountService.switchAccountSig
 
-  time = 500;
+  loading = false;
 
   constructor(
     private transactionService: TransactionService,
@@ -34,15 +34,17 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   }
 
   private checkAccount() {
-    const accountSig = this.account();
+    this.loading = true;
 
-    if (!accountSig._id) {
-      this.time += 300;
-      setTimeout(() => this.checkAccount(), this.time);
-    } else {
-      const transactionSubs = this.transactionService.getTransactions().subscribe();
-      this.subscription.add(transactionSubs);
-    }
+    const interval$ = interval(300).pipe(
+      takeWhile(() => !this.account()._id),
+      finalize(() => this.loading = false)
+    );
+
+    const transactionSubs = this.transactionService.getTransactions().subscribe();
+    this.subscription.add(transactionSubs);
+
+    this.subscription.add(interval$.subscribe());
   }
 
   ngOnDestroy(): void {

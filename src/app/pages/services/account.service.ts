@@ -43,8 +43,7 @@ export class AccountService {
     return this.http.get<Account[]>(this.baseUrl, {headers: this.headers}).pipe(
       tap(accounts => {
         this.accounts = accounts;
-        this.switchAccountSig.set(JSON.parse(localStorage.getItem('account')!) || accounts[0]);
-        localStorage.setItem('account', JSON.stringify(this.switchAccountSig()));
+        this.switchAccountSig.set(this.switchAccountSig() || accounts[0]);
       }),
     );
   }

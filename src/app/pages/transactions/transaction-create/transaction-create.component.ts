@@ -12,7 +12,7 @@ import {
 } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Account, AccountService } from '../../services/account.service';
 import { Subscription, tap } from 'rxjs';
 import { TransactionService } from '../../services/transaction.service';
@@ -42,6 +42,7 @@ export interface ITransaction {
   imports: [
     ReactiveFormsModule,
     RouterModule,
+    RouterLink,
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
@@ -123,6 +124,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
           horizontalPosition: 'center',
           verticalPosition: 'top',
         });
+        this.router.navigate(['/main'])
         this.transactionForm.reset()
       })
     }
