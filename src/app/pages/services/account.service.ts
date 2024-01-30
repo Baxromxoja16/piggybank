@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, map, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Account {
   title: string;
@@ -18,7 +19,8 @@ export interface Account {
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl = 'http://localhost:3000/account/';
+  baseUrl = environment.apiUrl + 'account/';
+
 
   token = sessionStorage.getItem('tokenUser')!;
   headers = {

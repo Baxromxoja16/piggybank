@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { ITransaction } from '../transactions/transaction.model';
 import { Account, AccountService } from './account.service';
 
@@ -8,7 +9,8 @@ import { Account, AccountService } from './account.service';
   providedIn: 'root'
 })
 export class TransactionService {
-  baseUrl = 'http://localhost:3000/transaction/';
+  baseUrl = environment.apiUrl + 'transaction/';
+
   token = sessionStorage.getItem('tokenUser')!;
   headers = {
     'Content-Type': 'application/json; charset=utf-8',

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, WritableSignal, signal } from '@angular/core';
 import { tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface ICategory {
   _id: string
@@ -12,7 +13,8 @@ export interface ICategory {
   providedIn: 'root'
 })
 export class CategoryService {
-  baseUrl = 'http://localhost:3000/category/';
+  baseUrl = environment.apiUrl + 'category/';
+
   token = sessionStorage.getItem('tokenUser')!;
   headers = {
     'Content-Type': 'application/json; charset=utf-8',

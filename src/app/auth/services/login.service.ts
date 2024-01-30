@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, of, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface UserLogin {
   email: string;
@@ -16,7 +17,7 @@ export interface TokenType {
   providedIn: 'root',
 })
 export class LoginService {
-  baseUrl = 'http://localhost:3000/';
+  baseUrl = environment.apiUrl;
   errorMessage$: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor(private http: HttpClient) {}
