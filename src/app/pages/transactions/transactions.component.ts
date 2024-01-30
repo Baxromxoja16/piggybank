@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnChanges, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, DoCheck, computed, OnDestroy, OnInit, signal, WritableSignal, Signal } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
 import { Account, AccountService } from '../services/account.service';
@@ -21,6 +21,7 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   unfiltered: WritableSignal<ITransaction[]> = this.transactionService.unfiltered
 
   account: WritableSignal<Account> = this.accountService.switchAccountSig
+  oldAccount: WritableSignal<Account> = this.accountService.oldAccountSig
 
   loading = false;
 

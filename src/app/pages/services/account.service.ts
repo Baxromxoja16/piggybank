@@ -32,6 +32,8 @@ export class AccountService {
 
   switchAccountSig = signal<Account>({} as Account);
 
+  oldAccountSig = signal<Account>({} as Account);
+
   constructor(private http: HttpClient) {}
 
 

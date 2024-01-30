@@ -45,8 +45,8 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   onSwitchAccount(account: Account) {
+    this.accountService.oldAccountSig.set(this.accountService.switchAccountSig());
     this.accountService.switchAccountSig.set(account);
-    localStorage.setItem('account', JSON.stringify(this.accountService.switchAccountSig()));
     this.transactionService.getTransactions().subscribe();
   }
 
