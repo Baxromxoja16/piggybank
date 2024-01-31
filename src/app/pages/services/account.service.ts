@@ -90,8 +90,9 @@ export class AccountService {
             (account as Account)._id === (acc as Account)._id
         );
 
-        const updatedAccount = this.accounts().splice(idx, 1, account as Account);
-        this.accounts.set(updatedAccount);
+        this.accounts().splice(idx, 1, account as Account);
+
+        this.accounts.set(this.accounts());
       })
     );
   }
