@@ -1,7 +1,7 @@
 <div class="cards-page">
   <div class="cards">
-    @if (accounts.length > 0) {
-      @for (account of accounts; track account.balance) {
+    @if (accounts().length > 0) {
+      @for (account of accounts(); track account.balance) {
         <div class="card" (click)="onSwitchAccount(account)"
           [ngClass]="account._id === switchAccount()._id ? 'active' : ''">
           <h3>{{account.title}}</h3>

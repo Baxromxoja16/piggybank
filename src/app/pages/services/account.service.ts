@@ -74,7 +74,9 @@ export class AccountService {
   deleteAccount(id: string) {
     return this.http.delete(this.baseUrl + id, { headers: this.headers }).pipe(
       tap(() => {
-        this.accounts.set(this.accounts().filter((account) => account._id !== id));
+        const updatedAccount = this.accounts().filter((account) => account._id !== id);
+
+        this.accounts.set(updatedAccount);
       })
     );
   }
@@ -89,7 +91,6 @@ export class AccountService {
         );
 
         const updatedAccount = this.accounts().splice(idx, 1, account as Account);
-        console.log(updatedAccount);
         this.accounts.set(updatedAccount);
       })
     );

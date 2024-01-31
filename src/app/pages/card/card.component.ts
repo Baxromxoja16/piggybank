@@ -16,7 +16,7 @@ import { TransactionService } from '../services/transaction.service';
 })
 export class CardComponent implements OnInit, OnDestroy {
   open: boolean = false;
-  accounts: Account[] = [];
+  accounts: WritableSignal<Account[]> = this.accountService.accounts;
   subscription: Subscription = new Subscription();
   switchAccount: WritableSignal<Account> = this.accountService.switchAccountSig;
 
@@ -26,7 +26,7 @@ export class CardComponent implements OnInit, OnDestroy {
     const getAccount = this.accountService
       .getAccounts()
       .subscribe((data: Account[]) => {
-        this.accounts = data;
+        this.accounts.set(data)
         this.switchAccount = this.accountService.switchAccountSig
       });
 
