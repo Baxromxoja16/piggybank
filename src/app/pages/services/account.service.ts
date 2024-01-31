@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -28,7 +28,9 @@ export class AccountService {
     Authorization: this.token,
   };
 
-  private accounts: Account[] = [];
+  // private accounts: Account[] = [];
+
+  accounts: WritableSignal<Account[]> = signal([]);
 
   switchAccountSig = signal<Account>({} as Account);
 
@@ -44,7 +46,7 @@ export class AccountService {
   getAccounts(): Observable<Account[]> {
     return this.http.get<Account[]>(this.baseUrl, {headers: this.headers}).pipe(
       tap(accounts => {
-        this.accounts = accounts;
+        this.accounts.set(accounts);
         this.switchAccountSig.set(this.switchAccountSig() || accounts[0]);
       }),
     );
@@ -64,7 +66,7 @@ export class AccountService {
     return this.http
       .post<Account>(this.baseUrl, data, { headers: this.headers }).pipe(
         tap((account) => {
-          this.accounts.push(account);
+          this.accounts.set([...this.accounts(), account]);
         })
       );
   }
@@ -72,7 +74,7 @@ export class AccountService {
   deleteAccount(id: string) {
     return this.http.delete(this.baseUrl + id, { headers: this.headers }).pipe(
       tap(() => {
-        this.accounts = this.accounts.filter((account) => account._id !== id);
+        this.accounts.set(this.accounts().filter((account) => account._id !== id));
       })
     );
   }
@@ -80,8 +82,15 @@ export class AccountService {
   editAccount(id: string, body: Account) {
     return this.http.put(this.baseUrl + id, body, { headers: this.headers }).pipe(
       tap((account) => {
-        const idx = this.accounts.findIndex((acc) => (account as Account)._id === (acc as Account)._id);
-        this.accounts.splice(idx, 1, account as Account)
+
+        const idx = this.accounts().findIndex(
+          (acc) =>
+            (account as Account)._id === (acc as Account)._id
+        );
+
+        const updatedAccount = this.accounts().splice(idx, 1, account as Account);
+        console.log(updatedAccount);
+        this.accounts.set(updatedAccount);
       })
     );
   }
