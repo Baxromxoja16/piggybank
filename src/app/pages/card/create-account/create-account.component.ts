@@ -12,11 +12,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Account, AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-create-account',
   standalone: true,
-  imports: [UpDirective, ReactiveFormsModule, MatButtonModule],
+  imports: [
+    UpDirective,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule
+  ],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.scss',
 })
@@ -41,7 +53,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     private router: Router,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute
-    ) {}
+  ) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')!;
