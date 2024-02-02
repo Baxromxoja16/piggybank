@@ -18,6 +18,7 @@ import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, Mat
       MatDialogTitle,
       MatDialogContent,
     ],
+    host: {'some-binding': 'some-value'},
   })
   export class DialogTransaction implements OnInit, OnDestroy {
     constructor(
