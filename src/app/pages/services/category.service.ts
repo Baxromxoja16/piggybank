@@ -23,11 +23,16 @@ export class CategoryService {
 
   categories: WritableSignal<ICategory[]> = signal([]);
 
+  unfiltered: WritableSignal<ICategory[]> = signal([]);
+
   constructor(private http: HttpClient) { }
 
   getCategories() {
     return this.http.get<ICategory[]>(this.baseUrl, { headers: this.headers }).pipe(
-      tap((categories) => this.categories.set(categories))
+      tap((categories) => {
+        this.categories.set(categories)
+        this.unfiltered.set(categories)
+      })
     )
   }
 

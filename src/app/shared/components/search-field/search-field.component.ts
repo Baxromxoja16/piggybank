@@ -29,20 +29,20 @@ export class SearchFieldComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.router.url === '/categories') {
-      this.getChangedValue<ICategory>(this.categoryService.categories)
-    } else if(this.router.url === '/transaction-info') {
-      this.getChangedValue<ITransaction>(this.transactionService.transactions)
+      this.getChangedValue<ICategory>(this.categoryService.categories, this.categoryService.unfiltered)
+    } else if(this.router.url === '/main') {
+      this.getChangedValue<ITransaction>(this.transactionService.transactions, this.transactionService.unfiltered)
     }
 
   }
 
-  private getChangedValue<T>(signals: WritableSignal<T[]>) {
+  private getChangedValue<T>(signals: WritableSignal<T[]>, unfiltered: WritableSignal<T[]>) {
     const valueChanges = this.createForm.valueChanges.subscribe((data) => {
       const searchPattern = new RegExp(data.search.trim(), 'i');
-      const filtered = signals().filter(
+      const filtered = unfiltered().filter(
         (item: any) => searchPattern.test(item.title)
       );
-      console.log(filtered);
+      signals.set(filtered);
     })
 
     this.subscription.add(valueChanges);
