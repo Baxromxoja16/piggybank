@@ -14,8 +14,6 @@ import { ITransaction } from '../../../pages/transactions/transaction.model';
   styleUrl: './search-field.component.scss'
 })
 export class SearchFieldComponent implements OnInit, OnDestroy {
-  @Input() dataCategoryOrTransaction!: WritableSignal<ICategory[] | ITransaction[]>;
-
   subscription: Subscription = new Subscription();
 
   createForm: FormGroup = new FormGroup({

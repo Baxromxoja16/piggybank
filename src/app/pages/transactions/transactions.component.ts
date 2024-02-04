@@ -5,11 +5,12 @@ import { Account, AccountService } from '../services/account.service';
 import { finalize, interval, Subscription, takeWhile } from 'rxjs';
 import { ITransaction } from './transaction.model';
 import { CommonModule } from '@angular/common';
+import { SearchFieldComponent } from '../../shared/components/search-field/search-field.component';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, RouterModule],
+  imports: [RouterOutlet, CommonModule, RouterModule, SearchFieldComponent],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.scss'
 })
