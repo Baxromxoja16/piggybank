@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="category-info">
-      <app-search-field></app-search-field>
+      <app-search-field  [dataCategoryOrTransaction]="categories"></app-search-field>
       <div class="categories">
         @if (categories().length > 0) {
           @for (item of categories(); track $index) {
