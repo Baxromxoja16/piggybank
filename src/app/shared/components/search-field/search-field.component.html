@@ -1,4 +1,4 @@
-<div class="search-field">
-  <input type="text" placeholder="Search">
+<form class="search-field" [formGroup]="createForm" >
+  <input type="text" placeholder="Search" formControlName="search">
   <img src="../../../../assets/images/search.png" alt="">
-</div>
+</form>
