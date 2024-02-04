@@ -11,7 +11,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## How to use it?
 
-You can try like test user
+You can try as test user
 `login: test@mail.ru`
 `password: 12345678a`
 
