@@ -25,6 +25,8 @@ export class CategoryService {
 
   unfiltered: WritableSignal<ICategory[]> = signal([]);
 
+  errorMessage: WritableSignal<string> = signal('');
+
   constructor(private http: HttpClient) { }
 
   getCategories() {

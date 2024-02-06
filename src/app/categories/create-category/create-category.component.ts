@@ -28,6 +28,8 @@ export class CreateCategoryComponent implements OnDestroy{
     type: new FormControl('income' || 'expense')
   })
 
+  errorMessage = this.categoryService.errorMessage;
+
   constructor(
     private router: Router,
     private categoryService: CategoryService,
@@ -45,6 +47,12 @@ export class CreateCategoryComponent implements OnDestroy{
             duration: 4000
           })
           this.router.navigate(['/categories']);
+        },
+        (err) => {
+          if (err.error.match('duplicate')[0]) {
+            const message = 'A category with this name already exists';
+            this.categoryService.errorMessage.set(message);
+          }
         }
       );
 
