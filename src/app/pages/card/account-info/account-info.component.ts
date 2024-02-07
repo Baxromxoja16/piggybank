@@ -59,7 +59,7 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          const deleteAccount = this.accountService
+          const deletedAccount = this.accountService
             .deleteAccount(this.id)
             .subscribe(() => {
               this.router.navigate(['/main']);
@@ -68,7 +68,7 @@ export class AccountInfoComponent implements OnInit, OnDestroy {
               });
             });
 
-          this.subscription.add(deleteAccount);
+          this.subscription.add(deletedAccount);
         }
       });
     }

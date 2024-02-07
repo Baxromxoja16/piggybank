@@ -60,10 +60,11 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
       if (res) {
         const deleteTra = this.transactionService.deleteTransaction(transaction._id as string).subscribe((transaction) => {
           const message = 'Transaction deleted!'
-          this.snackBar.open(message, 'Close', {
-            duration: 4000,
-          });
+          this.openSnackBar(message, 'success');
           this.router.navigate(['/main']);
+        },
+        (err) => {
+          this.openSnackBar(err.error.message, 'warn')
         });
         this.subscription.add(deleteTra);
       }
@@ -73,12 +74,19 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
 
   editTransaction() {
     const message = 'This function in progress, it will be implemented soon'
-    this.snackBar.open(message, 'Close', {
-      duration: 4000,
-    });
+    this.openSnackBar(message, 'success')
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  private openSnackBar(message: string, type: string) {
+    this.snackBar.open(message, 'close', {
+      duration: 4000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? '' : "snack-error"
+    })
   }
 }
