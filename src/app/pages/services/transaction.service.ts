@@ -21,6 +21,8 @@ export class TransactionService {
 
   unfiltered: WritableSignal<ITransaction[]> = signal([]);
 
+  accounts = this.accountService.accounts;
+
   constructor(private http: HttpClient, private accountService: AccountService) {
   }
 
@@ -40,7 +42,19 @@ export class TransactionService {
   createTransaction(transaction: ITransaction): Observable<ITransaction> {
     return this.http.post<ITransaction>(this.baseUrl + this.accountService.switchAccountSig()._id, transaction, { headers: this.headers }).pipe(
       tap((response) => {
-        this.transactions.set([...this.transactions(), response]);
+       this.transactions.set([...this.transactions(), response]);
+
+        // Find and update account balance
+        const updatedAccounts = this.accounts().map((acc) => {
+          if (response.accountId === acc._id) {
+            const newBalance = response.type === 'expense' ? acc.balance - response.amount : acc.balance + response.amount;
+            return { ...acc, balance: newBalance };
+          }
+          return acc;
+        });
+
+        // Update accounts
+        this.accounts.set(updatedAccounts);
       })
     );
   }
