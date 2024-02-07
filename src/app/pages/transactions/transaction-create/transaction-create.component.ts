@@ -145,7 +145,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.transactionForm.reset();
+        this.router.navigate(['/main'])
       }
     })
   }
