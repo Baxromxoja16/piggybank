@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, WritableSignal, signal } from '@angular/core';
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
@@ -32,7 +32,7 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
 
   subscription = new Subscription()
 
-  account!: Account;
+  account: WritableSignal<Account> = this.accountService.switchAccountSig;
 
   constructor(
     private transactionService: TransactionService,
@@ -51,8 +51,6 @@ export class TransactionInfoComponent implements OnInit, OnDestroy{
 
       this.subscription.add(getTransaction);
     }
-    this.account = this.accountService.switchAccountSig();
-
   }
 
   deleteTransaction(transaction: ITransaction) {

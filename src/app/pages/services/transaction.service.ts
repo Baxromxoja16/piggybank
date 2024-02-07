@@ -39,8 +39,8 @@ export class TransactionService {
 
   createTransaction(transaction: ITransaction): Observable<ITransaction> {
     return this.http.post<ITransaction>(this.baseUrl + this.accountService.switchAccountSig()._id, transaction, { headers: this.headers }).pipe(
-      tap(() => {
-        this.transactions.set([...this.transactions(), transaction]);
+      tap((response) => {
+        this.transactions.set([...this.transactions(), response]);
       })
     );
   }

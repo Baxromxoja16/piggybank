@@ -35,7 +35,7 @@
             </p>
             <span
               [ngClass]="{'red': transaction.type === 'expense', 'yellow': transaction.type === 'income'}"
-              class="price red">{{transaction.amount}}{{account.sign}}</span>
+              class="price red">{{transaction.amount}}{{account().sign}}</span>
           </div>
           <h4>{{transaction.title}}</h4>
           <div class="info-category">
