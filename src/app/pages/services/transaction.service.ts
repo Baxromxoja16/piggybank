@@ -43,18 +43,7 @@ export class TransactionService {
     return this.http.post<ITransaction>(this.baseUrl + this.accountService.switchAccountSig()._id, transaction, { headers: this.headers }).pipe(
       tap((response) => {
        this.transactions.set([...this.transactions(), response]);
-
-        // Find and update account balance
-        const updatedAccounts = this.accounts().map((acc) => {
-          if (response.accountId === acc._id) {
-            const newBalance = response.type === 'expense' ? acc.balance - response.amount : acc.balance + response.amount;
-            return { ...acc, balance: newBalance };
-          }
-          return acc;
-        });
-
-        // Update accounts
-        this.accounts.set(updatedAccounts);
+       this.updateAccountBalance(response);
       })
     );
   }
@@ -64,8 +53,23 @@ export class TransactionService {
   deleteTransaction(id: string) {
     return this.http.delete(this.baseUrl + this.accountService.switchAccountSig()._id + '/' + id, { headers: this.headers }).pipe(
       tap(() => {
+        const foundTrans = this.transactions().filter((tr) => tr._id === id)
         this.transactions.set(this.transactions().filter((tr) => tr._id !== id));
+        this.updateAccountBalance(foundTrans[0]);
       })
     );
+  }
+
+  private updateAccountBalance(transaction: ITransaction) {
+    const updatedAccounts = this.accounts().map((acc) => {
+      if (transaction.accountId === acc._id) {
+        const amount = transaction.type === 'expense' ? -transaction.amount : transaction.amount;
+        const newBalance = acc.balance + amount;
+        return { ...acc, balance: newBalance };
+      }
+      return acc;
+    });
+
+    this.accounts.set(updatedAccounts);
   }
 }
