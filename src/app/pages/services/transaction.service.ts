@@ -43,7 +43,7 @@ export class TransactionService {
     return this.http.post<ITransaction>(this.baseUrl + this.accountService.switchAccountSig()._id, transaction, { headers: this.headers }).pipe(
       tap((response) => {
        this.transactions.set([...this.transactions(), response]);
-       this.updateAccountBalance(response);
+       this.updateAccountBalance(response, 'create');
       })
     );
   }
@@ -55,16 +55,16 @@ export class TransactionService {
       tap(() => {
         const foundTrans = this.transactions().filter((tr) => tr._id === id)
         this.transactions.set(this.transactions().filter((tr) => tr._id !== id));
-        this.updateAccountBalance(foundTrans[0]);
+        this.updateAccountBalance(foundTrans[0], 'delete');
       })
     );
   }
 
-  private updateAccountBalance(transaction: ITransaction) {
+  private updateAccountBalance(transaction: ITransaction, type: string) {
     const updatedAccounts = this.accounts().map((acc) => {
       if (transaction.accountId === acc._id) {
         const amount = transaction.type === 'expense' ? -transaction.amount : transaction.amount;
-        const newBalance = acc.balance + amount;
+        const newBalance = (type === 'delete' ? acc.balance - amount : acc.balance + amount);
         return { ...acc, balance: newBalance };
       }
       return acc;
