@@ -178,3 +178,10 @@ body {
   // display: flex;
   gap: 45px;
 }
+
+.snack-error.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background-color: red !important;
+}
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  background-color: #21c206;
+}

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -126,6 +126,14 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
         });
         this.router.navigate(['/main'])
         this.transactionForm.reset()
+      },
+      (err) => {
+        this.snackBar.open(err.error.message, 'Close', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: 'snack-error'
+        });
       })
     }
   }
