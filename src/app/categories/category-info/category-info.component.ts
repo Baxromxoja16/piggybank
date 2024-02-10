@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AccountService } from '../../pages/services/account.service';
 
 import { CategoryService, ICategory } from '../../pages/services/category.service';
 import { SearchFieldComponent } from '../../shared/components/search-field/search-field.component';
@@ -31,13 +32,16 @@ export class CategoryInfoComponent implements OnInit, OnDestroy {
 
   editCategoryId!: string;
 
+  account = this.accountService.switchAccountSig
+
   reg = new RegExp(/[a-zA-Z]/gi);
   createForm: FormGroup = new FormGroup({
     type: new FormControl('income' || 'expense'),
-    title: new FormControl('', [Validators.required, Validators.pattern(this.reg)])
+    title: new FormControl('', [Validators.required, Validators.pattern(this.reg)]),
+    accountId: new FormControl(this.account()._id)
   })
 
-  constructor(private categoryService: CategoryService, private snackBar: MatSnackBar) {}
+  constructor(private categoryService: CategoryService, private snackBar: MatSnackBar, private accountService: AccountService) {}
 
   ngOnInit() {
     const getCategories = this.categoryService.getCategories().subscribe();

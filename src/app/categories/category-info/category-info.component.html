@@ -3,7 +3,7 @@
     <div class="category-info">
       <app-search-field></app-search-field>
       <div class="categories">
-        @if (categories().length > 0) {
+        @if (categories().length > 0 && account()._id) {
           @for (item of categories(); track $index) {
             <div class="category-btn"
             [ngClass]="{
@@ -19,15 +19,21 @@
                 </form>
               } @else {
                 <p class="btn-title">{{item.title}}</p>
-                <button class="btn" (click)="editCategory(item)">
-                  <mat-icon>edit</mat-icon>
+                @if (item.accountId) {
+                  <button class="btn" (click)="editCategory(item)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                }
+              }
+              @if (item.accountId) {
+                <button class="btn" (click)="deleteCategory(item._id)">
+                  <mat-icon>delete</mat-icon>
                 </button>
               }
-              <button class="btn" (click)="deleteCategory(item._id)">
-                <mat-icon>delete</mat-icon>
-              </button>
             </div>
           }
+        } @else if (!account()._id) {
+          <p class="text">You didn't choose account, please <a routerLink="/main">choose account</a></p>
         } @else {
           <p class="text">You don't have any category please <a routerLink="/main/categories/create-category">add categories</a></p>
         }
