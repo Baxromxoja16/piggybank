@@ -1,22 +1,24 @@
 <div class="settings">
   <div class="settings">
     <div class="settings-cards">
-      <div class="card">
-        <span class="circle yellow">
-          <img src="../../../../assets/images/Arrow-bottom.svg" alt="" />
-        </span>
-        <p>Income</p>
-      </div>
-      <div class="card">
-        <span class="circle red">
-          <img src="../../../../assets/images/Arrow-top.svg" alt="" />
-        </span>
-        <p>Expenses</p>
-      </div>
-      <a routerLink="/main/transaction-create" class="card light-blue" >
-        <span class="circle white"> + </span>
-        <p>Add Transaction</p>
-      </a>
+      @if(account()._id) {
+        <div class="card">
+          <span class="circle yellow">
+            <img src="../../../../assets/images/Arrow-bottom.svg" alt="" />
+          </span>
+          <p>Income</p>
+        </div>
+        <div class="card">
+          <span class="circle red">
+            <img src="../../../../assets/images/Arrow-top.svg" alt="" />
+          </span>
+          <p>Expenses</p>
+        </div>
+        <a routerLink="/main/transaction-create" class="card light-blue" >
+          <span class="circle white"> + </span>
+          <p>Add Transaction</p>
+        </a>
+      }
       <a routerLink="/main/create-account" class="card light-blue">
         <span class="circle white"> + </span>
         <p>Add Account</p>

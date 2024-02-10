@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,5 +10,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
+
+  account = this.accountService.switchAccountSig;
+
+  constructor(private accountService: AccountService) {}
 
 }
