@@ -11,6 +11,7 @@ import { UpDirective } from '../../auth/directives/up.directive';
 import { CategoryService } from '../../pages/services/category.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
+import { AccountService } from '../../pages/services/account.service';
 
 @Component({
   selector: 'app-create-category',
@@ -22,9 +23,12 @@ import { Subscription } from 'rxjs';
 export class CreateCategoryComponent implements OnDestroy{
   subscription: Subscription = new Subscription();
 
+  accountId = this.accountService.switchAccountSig()._id;
+
   reg = new RegExp(/[a-zA-Z]/gi)
   createForm: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required, Validators.pattern(this.reg)]),
+    accountId: new FormControl(this.accountId, [Validators.required]),
     type: new FormControl('income' || 'expense')
   })
 
@@ -33,7 +37,8 @@ export class CreateCategoryComponent implements OnDestroy{
   constructor(
     private router: Router,
     private categoryService: CategoryService,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar,
+    private accountService: AccountService) {}
 
   close() {
     this.router.navigate(['/categories']);
