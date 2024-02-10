@@ -43,7 +43,7 @@
                           <img src="../../../../assets/images/Arrow-bottom.svg" alt="">
                         }
                     </span>
-                    <p>{{transaction.type | uppercase}}  · {{transaction.createdAt | date : 'shortDate'}} · {{transaction.accountId === account()._id ? account().title : oldAccount().title}}</p>
+                    <p>{{transaction.type | uppercase}}  · {{transaction.date_of_operation | date : 'shortDate'}} · {{transaction.accountId === account()._id ? account().title : oldAccount().title}}</p>
                 </div>
             </div>
             <span
