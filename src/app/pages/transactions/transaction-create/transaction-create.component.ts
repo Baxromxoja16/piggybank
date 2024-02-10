@@ -32,7 +32,7 @@ export interface ITransaction {
   category: string[]
   description: string
   amount:number
-  date:Date
+  date_of_operation:Date
   account:string
 }
 
@@ -72,7 +72,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
       Validators.pattern(/[0-9]/),
       Validators.pattern(/^\d+(\.\d{0,2})?$/)
     ]),
-    date: new FormControl('', [Validators.required, this.dateValidation]),
+    date_of_operation: new FormControl('', [Validators.required, this.dateValidation]),
     account: new FormControl('', Validators.required)
   });
 
@@ -201,7 +201,7 @@ export class TransactionCreateComponent implements OnInit, OnDestroy {
   }
 
   protected dateValidationForHTML(): IsError {
-    const formControl = this.transactionForm.get('date');
+    const formControl = this.transactionForm.get('date_of_operation');
 
     if (formControl?.errors?.['required'] && formControl?.touched || this.submitted) {
       return {message: `Date is required field`, isError: true};
