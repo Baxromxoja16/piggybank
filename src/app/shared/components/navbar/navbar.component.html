@@ -13,7 +13,7 @@
         <a routerLink="/" class="item-link">Obligatory</a>
       </li> -->
       <li class="menu-item">
-        <a [routerLink]="['/statistic/', account()._id]" routerLinkActive="active" class="item-link">Statistic</a>
+        <a (click)="toStatistic()" routerLinkActive="active" class="item-link">Statistic</a>
       </li>
       <!-- <li class="menu-item"><a routerLink="/" class="item-link">Admin</a></li> -->
     </ul>

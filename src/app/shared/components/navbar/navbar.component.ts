@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AccountService } from '../../../pages/services/account.service';
 
 @Component({
@@ -12,5 +13,11 @@ import { AccountService } from '../../../pages/services/account.service';
 export class NavbarComponent {
   account = this.accountService.switchAccountSig;
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private router: Router, private snackBar: MatSnackBar) {}
+
+  toStatistic() {
+    this.account()._id ?
+    this.router.navigate(['/statistic/', this.account()._id]) :
+    this.snackBar.open('Please choose account', 'close', {panelClass: 'snack-error'})
+  }
 }
