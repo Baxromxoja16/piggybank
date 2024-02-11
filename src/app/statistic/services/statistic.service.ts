@@ -10,6 +10,12 @@ import { IStatistics } from './statistic.model';
 export class StatisticService {
   baseUrl = environment.apiUrl + 'statistic/';
 
+  token = sessionStorage.getItem('tokenUser')!;
+  headers = {
+    'Content-Type': 'application/json; charset=utf-8',
+    Authorization: this.token,
+  };
+
   statistics: WritableSignal<IStatistics[]> = signal([] as IStatistics[])
 
   constructor(private http: HttpClient) { }
