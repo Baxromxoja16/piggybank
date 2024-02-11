@@ -5,12 +5,74 @@
       <app-card></app-card>
 
       <div class="content">
-        <mat-tab-group animationDuration="100ms" mat-stretch-tabs="false" mat-align-tabs="center">
+        <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
           <mat-tab label="Categories Statistic">
-            Content 1
+            <div class="date-picker-container">
+              <mat-form-field>
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [formGroup]="rangeDate" [rangePicker]="picker">
+                  <input matStartDate formControlName="start" placeholder="Start date">
+                  <input matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                @if (rangeDate.controls.start.hasError('matStartDateInvalid')) {
+                  <mat-error>Invalid start date</mat-error>
+                }
+                @if (rangeDate.controls.end.hasError('matEndDateInvalid')) {
+                  <mat-error>Invalid end date</mat-error>
+                }
+              </mat-form-field>
+            </div>
+
+            <div class="total-expenses">
+              <h4>Total Expenses</h4>
+              <p>{{ 100.00 }}$</p>
+            </div>
+
+            <table>
+              <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>% in total</th>
+              </tr>
+              <tr>
+                <td>Food</td>
+                <td>25$</td>
+                <td>25%</td>
+              </tr>
+              <tr>
+                <td>Education</td>
+                <td>30$</td>
+                <td>30%</td>
+              </tr>
+              <tr>
+                <td>Transport</td>
+                <td>25$</td>
+                <td>25%</td>
+              </tr>
+            </table>
           </mat-tab>
           <mat-tab label="Monthly Statistic">
-            Content 2
+            <div class="date-picker-container">
+              <mat-form-field>
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [formGroup]="rangeDate" [rangePicker]="picker">
+                  <input matStartDate formControlName="start" placeholder="Start date">
+                  <input matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                @if (rangeDate.controls.start.hasError('matStartDateInvalid')) {
+                  <mat-error>Invalid start date</mat-error>
+                }
+                @if (rangeDate.controls.end.hasError('matEndDateInvalid')) {
+                  <mat-error>Invalid end date</mat-error>
+                }
+              </mat-form-field>
+            </div>
           </mat-tab>
         </mat-tab-group>
       </div>

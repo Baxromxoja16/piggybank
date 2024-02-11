@@ -2,5 +2,69 @@
   display: flex;
 }
 .content {
+  width: 45%;
+}
+
+.date-picker-container,
+.total-expenses {
   width: 100%;
+  margin-top: 20px;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.total-expenses {
+  padding: 10px 15px;
+  font-family: Space Grotesk;
+
+  h4 {
+    color: rgba(17, 17, 17, 0.48);
+    line-height: 20px;
+    font-size: 18px;
+  }
+
+  p {
+    font-size: 20px;
+    color: red;
+    line-height: 24px;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+table {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px;
+  border-collapse: collapse;
+  font-family: Space Grotesk;
+
+  tr {
+    background: #fff;
+    border-bottom: 1px solid rgba(55, 55, 55, 0.5);
+    th,
+    td {
+      text-align: left;
+      padding: 10px 15px;
+      font-size: 16px;
+
+    }
+
+    &:first-child {
+      background: rgba(213, 241, 236, 1);
+    }
+  }
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
 }
