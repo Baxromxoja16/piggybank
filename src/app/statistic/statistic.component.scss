@@ -5,7 +5,6 @@
   width: 45%;
 }
 
-.date-picker-container,
 .total-expenses {
   width: 100%;
   margin-top: 20px;
@@ -55,16 +54,4 @@ table {
       background: rgba(213, 241, 236, 1);
     }
   }
-}
-
-.mat-mdc-form-field {
-  width: 100%;
-}
-
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: transparent !important;
-}
-
-::ng-deep .mat-mdc-form-field-subscript-wrapper {
-  display: none;
 }

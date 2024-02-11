@@ -7,24 +7,7 @@
       <div class="content">
         <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
           <mat-tab label="Categories Statistic">
-            <div class="date-picker-container">
-              <mat-form-field>
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [formGroup]="rangeDate" [rangePicker]="picker">
-                  <input matStartDate formControlName="start" placeholder="Start date">
-                  <input matEndDate formControlName="end" placeholder="End date">
-                </mat-date-range-input>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-
-                @if (rangeDate.controls.start.hasError('matStartDateInvalid')) {
-                  <mat-error>Invalid start date</mat-error>
-                }
-                @if (rangeDate.controls.end.hasError('matEndDateInvalid')) {
-                  <mat-error>Invalid end date</mat-error>
-                }
-              </mat-form-field>
-            </div>
+            <app-range-date></app-range-date>
 
             <div class="total-expenses">
               <h4>Total Expenses</h4>

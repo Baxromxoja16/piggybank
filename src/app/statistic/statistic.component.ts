@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
+import { RangeDateComponent } from '../shared/components/range-date/range-date.component';
 
 @Component({
   selector: 'app-statistic',
@@ -14,18 +15,12 @@ import { MatNativeDateModule } from '@angular/material/core';
     CardComponent,
     NavbarComponent,
     MatTabsModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    ReactiveFormsModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    RangeDateComponent
   ],
   templateUrl: './statistic.component.html',
   styleUrl: './statistic.component.scss'
 })
 export class StatisticComponent {
-  rangeDate = new FormGroup({
-    start: new FormControl(''),
-    end: new FormControl(''),
-  })
 
 }
