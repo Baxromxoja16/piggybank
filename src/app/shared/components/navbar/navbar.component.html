@@ -4,18 +4,18 @@
 
     <ul class="menu">
       <li class="menu-item">
-        <a routerLink="/categories" class="item-link active">Categories</a>
+        <a routerLink="/categories" routerLinkActive="active" class="item-link">Categories</a>
       </li>
-      <li class="menu-item">
+      <!-- <li class="menu-item">
         <a routerLink="/" class="item-link">Subscriptions</a>
       </li>
       <li class="menu-item">
         <a routerLink="/" class="item-link">Obligatory</a>
-      </li>
+      </li> -->
       <li class="menu-item">
-        <a [routerLink]="['/statistic/', account()._id]" class="item-link">Statistic</a>
+        <a [routerLink]="['/statistic/', account()._id]" routerLinkActive="active" class="item-link">Statistic</a>
       </li>
-      <li class="menu-item"><a routerLink="/" class="item-link">Admin</a></li>
+      <!-- <li class="menu-item"><a routerLink="/" class="item-link">Admin</a></li> -->
     </ul>
 
     <div class="account">
