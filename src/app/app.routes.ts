@@ -9,6 +9,7 @@ import { TransactionCreateComponent } from './pages/transactions/transaction-cre
 import { TransactionInfoComponent } from './pages/transactions/transaction-info/transaction-info.component';
 import { CreateCategoryComponent } from './categories/create-category/create-category.component';
 import { CategoryInfoComponent } from './categories/category-info/category-info.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,7 @@ export const routes: Routes = [
     { path: '', component: CategoryInfoComponent },
     { path: 'create-category', component: CreateCategoryComponent },
     { path: 'category-info', component: CategoryInfoComponent },
-  ] }
+  ] },
+  { path: 'statistic/:id', canActivate: [authGuard], component: StatisticComponent }
 
 ];
