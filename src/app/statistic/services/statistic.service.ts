@@ -3,6 +3,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 import { tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AccountService } from '../../pages/services/account.service';
+import { IDate } from '../../shared/components/range-date/range-date.component';
 import { IStatistics } from './statistic.model';
 
 @Injectable({
@@ -21,9 +22,9 @@ export class StatisticService {
 
   constructor(private http: HttpClient, private accountService: AccountService) { }
 
-  getStatistics() {
+  getStatistics(body: IDate) {
     const accountId = this.accountService.switchAccountSig()._id;
-    return this.http.get<IStatistics[]>(this.baseUrl + accountId, { headers: this.headers }).pipe(
+    return this.http.post<IStatistics[]>(this.baseUrl + accountId, body, { headers: this.headers }).pipe(
       tap((statistics: IStatistics[]) => {
         this.statistics.set(statistics);
       })

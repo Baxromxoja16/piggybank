@@ -5,6 +5,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { StatisticService } from '../../../statistic/services/statistic.service';
 import { Subscription } from 'rxjs';
 
+export interface IDate {
+  start: string
+  end: string
+}
+
 @Component({
   selector: 'app-range-date',
   standalone: true,
@@ -25,7 +30,7 @@ export class RangeDateComponent implements OnDestroy{
 
   constructor(private statisticService: StatisticService) {
     const valueChange = this.rangeDate.valueChanges.subscribe((data) => {
-      this.statisticService.getStatistics().subscribe();
+      this.statisticService.getStatistics((data as IDate)).subscribe();
     });
 
     this.subsciption.add(valueChange);
