@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { StatisticService } from '../../../statistic/services/statistic.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-range-date',
@@ -14,15 +16,22 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   templateUrl: './range-date.component.html',
   styleUrl: './range-date.component.scss'
 })
-export class RangeDateComponent {
+export class RangeDateComponent implements OnDestroy{
+  subsciption = new Subscription
   rangeDate = new FormGroup({
     start: new FormControl('', Validators.required),
     end: new FormControl('', Validators.required),
   })
 
-  constructor() {
-    this.rangeDate.valueChanges.subscribe((data) => {
-      console.log(this.rangeDate.valid);
-    })
+  constructor(private statisticService: StatisticService) {
+    const valueChange = this.rangeDate.valueChanges.subscribe((data) => {
+      this.statisticService.getStatistics().subscribe();
+    });
+
+    this.subsciption.add(valueChange);
+  }
+
+  ngOnDestroy(): void {
+    this.subsciption.unsubscribe();
   }
 }
