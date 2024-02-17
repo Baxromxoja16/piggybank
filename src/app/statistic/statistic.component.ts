@@ -9,6 +9,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { RangeDateComponent } from '../shared/components/range-date/range-date.component';
 import { StatisticService } from './services/statistic.service';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { AccountService } from '../pages/services/account.service';
 
 @Component({
   selector: 'app-statistic',
@@ -19,14 +21,23 @@ import { CommonModule } from '@angular/common';
     MatTabsModule,
     MatNativeDateModule,
     RangeDateComponent,
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './statistic.component.html',
   styleUrl: './statistic.component.scss'
 })
-export class StatisticComponent {
+export class StatisticComponent implements OnInit{
   statistics = this.statisticService.statistics;
 
-  constructor(private statisticService: StatisticService) {}
+  constructor(
+    private statisticService: StatisticService,
+    private router: Router,
+    private accountService: AccountService) {}
 
+  ngOnInit(): void {
+    if (!this.accountService.switchAccountSig()._id) {
+      this.router.navigate(['/main'])
+    }
+  }
 }
