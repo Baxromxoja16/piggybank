@@ -4,10 +4,20 @@ export interface IStatistics {
   totalExpenses: number
   totalSavings: number
   totalPercentOfSavings: number
-  categoryStats: ICategoryStats[]
+  allMonths: ICategoryStats[]
 }
 
 export interface ICategoryStats {
-  category: string[]
+  monthYear: string
+  totalIncome: string
+  totalExpenses: string
+  totalSavings: string
+  totalPercentOfSavings: string
+  categoryStats: string
   categoryAmount: number
+}
+
+export interface MonthYear {
+  start: string
+  end: string
 }
