@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CardComponent} from '../pages/card/card.component'
 import { NavbarComponent } from '../shared/components/navbar/navbar.component';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -7,6 +7,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { RangeDateComponent } from '../shared/components/range-date/range-date.component';
+import { StatisticService } from './services/statistic.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-statistic',
@@ -16,11 +18,15 @@ import { RangeDateComponent } from '../shared/components/range-date/range-date.c
     NavbarComponent,
     MatTabsModule,
     MatNativeDateModule,
-    RangeDateComponent
+    RangeDateComponent,
+    CommonModule
   ],
   templateUrl: './statistic.component.html',
   styleUrl: './statistic.component.scss'
 })
 export class StatisticComponent {
+  statistics = this.statisticService.statistics;
+
+  constructor(private statisticService: StatisticService) {}
 
 }

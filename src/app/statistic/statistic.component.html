@@ -6,38 +6,62 @@
 
       <div class="content">
         <mat-tab-group animationDuration="0ms" mat-align-tabs="center">
-          <mat-tab label="Categories Statistic">
+          <!-- <mat-tab label="Categories Statistic">
             <app-range-date></app-range-date>
 
-            <div class="total-expenses">
-              <h4>Total Expenses</h4>
-              <p>{{ 100.00 }}$</p>
-            </div>
+            @for (statistic of statistics(); track $index) {
+              <div class="total-expenses">
+                <h4>Total Expenses</h4>
+                <p>{{ statistic.totalExpenses }}$</p>
+              </div>
 
+              <table>
+                <tr>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>% in total</th>
+                </tr>
+                @for (months of statistic.allMonths; track $index) {
+                  <tr>
+                    <td>{{months}}</td>
+                    <td>25$</td>
+                    <td>25%</td>
+                  </tr>
+                }
+              </table>
+            }
+
+          </mat-tab> -->
+          <mat-tab label="Monthly Statistic">
+            <app-range-date></app-range-date>
+
+            @for (statistic of statistics(); track $index) {
             <table>
               <tr>
-                <th>Category</th>
-                <th>Amount</th>
-                <th>% in total</th>
+                <th>Month</th>
+                <th>Income</th>
+                <th>Expenses</th>
+                <th>Economy</th>
+                <th>$ of economy</th>
               </tr>
+              @for (detail of statistic.allMonths; track $index) {
               <tr>
-                <td>Food</td>
-                <td>25$</td>
-                <td>25%</td>
+                <td>{{ detail.monthYear | date : "mediumDate" }}</td>
+                <td>{{ detail.totalIncome }}</td>
+                <td>{{ detail.totalExpenses }}</td>
+                <td>{{ detail.totalSavings }}</td>
+                <td>{{ detail.totalPercentOfSavings }}%</td>
               </tr>
-              <tr>
-                <td>Education</td>
-                <td>30$</td>
-                <td>30%</td>
-              </tr>
-              <tr>
-                <td>Transport</td>
-                <td>25$</td>
-                <td>25%</td>
+              }
+              <tr class="tr-total">
+                <td>Total</td>
+                <td>{{ statistic.totalIncome }}</td>
+                <td>{{ statistic.totalExpenses }}</td>
+                <td>{{ statistic.totalSavings }}</td>
+                <td>{{ statistic.totalPercentOfSavings }}%</td>
               </tr>
             </table>
-          </mat-tab>
-          <mat-tab label="Monthly Statistic">
+            }
           </mat-tab>
         </mat-tab-group>
       </div>
