@@ -24,8 +24,6 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   account: WritableSignal<Account> = this.accountService.switchAccountSig
   oldAccount: WritableSignal<Account> = this.accountService.oldAccountSig
 
-  loading = false;
-
   constructor(
     private transactionService: TransactionService,
     private accountService: AccountService,
@@ -36,17 +34,14 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   }
 
   private checkAccount() {
-    this.loading = true;
-
-    const interval$ = interval(300).pipe(
-      takeWhile(() => !this.account()._id),
-      finalize(() => this.loading = false)
-    );
-
-    const transactionSubs = this.transactionService.getTransactions().subscribe();
-    this.subscription.add(transactionSubs);
-
-    this.subscription.add(interval$.subscribe());
+    if (this.account()._id) {
+      const transactionSubs = this.transactionService.getTransactions().subscribe();
+      this.subscription.add(transactionSubs);
+    } else {
+      setTimeout(() => {
+        this.checkAccount()
+      }, 0);
+    }
   }
 
   ngOnDestroy(): void {

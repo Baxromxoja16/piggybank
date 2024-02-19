@@ -47,7 +47,8 @@ export class AccountService {
     return this.http.get<Account[]>(this.baseUrl, {headers: this.headers}).pipe(
       tap(accounts => {
         this.accounts.set(accounts);
-        this.switchAccountSig.set(this.switchAccountSig() || accounts[0]);
+        const switched = this.switchAccountSig()._id ? this.switchAccountSig() : accounts[0]
+        this.switchAccountSig.set(switched);
       }),
     );
   }
