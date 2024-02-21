@@ -185,3 +185,9 @@ body {
 .mat-mdc-snack-bar-container .mdc-snackbar__surface {
   background-color: #21c206 !important;
 }
+
+@media (max-width: 400px) {
+  .container {
+    max-width: 380px;
+  }
+}
