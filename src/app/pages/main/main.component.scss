@@ -1,3 +1,17 @@
 .row {
   display: flex;
 }
+.main {
+  overflow: hidden;
+}
+
+@media (max-width: 1400px) {
+  .settings-app {
+    display: none;
+  }
+
+  .row {
+    justify-content: space-between;
+    gap: 20px;
+  }
+}
