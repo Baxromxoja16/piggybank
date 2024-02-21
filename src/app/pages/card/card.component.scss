@@ -31,21 +31,21 @@
       margin-left: 10px;
     }
     &::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 5px grey; 
+      box-shadow: inset 0 0 5px grey;
       border-radius: 10px;
     }
-     
+
     /* Handle */
     &::-webkit-scrollbar-thumb {
-      background: #acacff; 
+      background: #acacff;
       border-radius: 10px;
     }
-    
+
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
-      background: #9393ff; 
+      background: #9393ff;
     }
-    
+
     .card {
       display: flex;
       flex-direction: column;
@@ -60,7 +60,7 @@
       cursor: pointer;
       opacity: 0.4;
       text-decoration: none;
-      
+
       a {
         color: #fff;
       }
@@ -122,4 +122,21 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+@media (max-width: 1400px) {
+
+}
+@media (max-width: 1100px) {
+  .cards-page {
+    width: 350px;
+  }
+}
+@media (max-width: 768px) {
+  .cards-page {
+    width: 100%;
+    .cards {
+      max-height: 40vh;
+    }
+  }
 }

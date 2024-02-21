@@ -14,14 +14,25 @@
     justify-content: space-between;
     gap: 20px;
   }
+
+  .transactions-app {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
   .row {
     flex-wrap: wrap;
     justify-content: center;
+    gap: 40px;
   }
+
   .main {
     overflow: auto;
+  }
+
+  .card-app,
+  .transactions-app {
+    width: 100%;
   }
 }
