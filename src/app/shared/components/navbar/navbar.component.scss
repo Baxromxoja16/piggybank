@@ -65,3 +65,25 @@
     margin: 0;
   }
 }
+.mat-icon_btn {
+  display: none;
+}
+
+@media (max-width: 1400px) {
+  .account {
+    display: none;
+  }
+  .mat-icon_btn {
+    display: block;
+  }
+}
+@media (max-width: 900px) {
+  .logo {
+    min-width: 250px;
+  }
+}
+@media (max-width: 640px) {
+  .logo {
+    min-width: 130px;
+  }
+}
