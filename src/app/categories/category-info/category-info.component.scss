@@ -74,3 +74,19 @@
     }
   }
 }
+@media (max-width: 1100px) {
+  .category-info{
+    order: 2;
+    width: 100%;
+  }
+  .category-menu {
+    width: 100%;
+  }
+  .row {
+    gap: 20px;
+    flex-direction: column;
+  }
+}
+@media (max-width: 570px) {
+
+}
