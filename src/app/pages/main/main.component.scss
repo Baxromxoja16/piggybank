@@ -36,3 +36,19 @@
     width: 100%;
   }
 }
+
+@media (max-width: 400px) {
+  .row {
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+
+  .logo {
+    min-width: 100px;
+    font-size: 16px;
+  }
+
+  .container {
+    padding: 0;
+  }
+}

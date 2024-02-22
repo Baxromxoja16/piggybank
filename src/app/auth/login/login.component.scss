@@ -42,7 +42,7 @@ form {
     align-items: center;
     justify-content: space-between;
     color: aliceblue;
-    
+
 
     p {
       margin: 0;
@@ -54,3 +54,30 @@ form {
     }
   }
 }
+
+@media (max-width: 600px) {
+  form {
+    width: 90%;
+    height: 85%;
+    padding: 50px;
+    margin: auto;
+  }
+
+  .login {
+    h1 {
+      font-size: 25px;
+    }
+  }
+
+  .form-field {
+    .input {
+      padding: 13px 15px;
+      font-size: 14px;
+    }
+
+    .btn {
+      padding: 12px 0;
+    }
+  }
+}
+
