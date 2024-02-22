@@ -22,10 +22,27 @@
       <img src="../../../../assets/images/user.png" class="account-image" />
       <p class="account-name">Maksim Verenich</p>
     </div>
-    <ng-container style="width: 235px;">
-      <button mat-icon-button class="mat-icon_btn">
-        <mat-icon>menu</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="menu" style="border: none;">
+        <mat-icon>more_vert</mat-icon>
       </button>
-    </ng-container>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>playlist_add</mat-icon>
+          <span><a routerLink="/main/transaction-create" class="item-link">Add transaction</a></span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>add_box</mat-icon>
+          <span><a routerLink="/main/create-account" class="item-link">Add Account</a></span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>category</mat-icon>
+          <span><a routerLink="/categories" routerLinkActive="active" class="item-link">Categories</a></span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>assessment</mat-icon>
+          <span><a (click)="toStatistic()" routerLinkActive="active" class="item-link">Statistic</a></span>
+        </button>
+      </mat-menu>
+    <!-- <app-menu class="media-menu"></app-menu> -->
   </div>
 </div>
