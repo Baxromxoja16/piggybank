@@ -87,16 +87,8 @@
     min-width: 130px;
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 570px) {
   .menu {
-    .menu-item{
-      .item-link {
-        font-size: 16px;
-
-        &::after {
-          display: none;
-        }
-      }
-    }
+    display: none;
   }
 }
