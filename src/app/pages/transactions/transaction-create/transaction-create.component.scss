@@ -26,7 +26,7 @@
 
 ::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface{
     color: #fff;
-    background-color: green !important; 
+    background-color: green !important;
 }
 
 ::ng-deep .mdc-button .mdc-button__label {
@@ -42,4 +42,14 @@
     .mdc-button {
         background-color: red;
     }
+}
+@media (max-width: 1000px) {
+  .transaction-create {
+    width: 50%;
+  }
+}
+@media (max-width: 570px) {
+  .transaction-create {
+    width: 80%;
+  }
 }
