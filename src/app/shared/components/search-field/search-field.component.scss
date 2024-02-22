@@ -30,3 +30,23 @@
     left: 18px;
   }
 }
+
+@media (max-width: 570px) {
+  .search-field {
+    height: 40px;
+
+    input {
+      font-size: 15px;
+
+      &::placeholder {
+        font-size: 15px;
+      }
+    }
+
+    img {
+      top: 13px;
+      left: 15px;
+      width: 15px;
+    }
+  }
+}

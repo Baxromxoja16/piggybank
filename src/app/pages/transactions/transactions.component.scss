@@ -122,16 +122,6 @@
         align-items: center;
         gap: 5px;
 
-        .circle {
-          width: 30px;
-          height: 30px;
-          flex-shrink: 0;
-          border-radius: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
         p {
           margin: 0;
           color: #373737;
@@ -172,7 +162,7 @@
 
 }
 
-@media (max-width: 400px) {
+@media (max-width: 570px) {
   .search-field {
     height: 40px;
 
@@ -198,13 +188,30 @@
       }
     }
   }
-  // .transaction-cards {
-  //   .transaction-card {
-  //     .card-left {
-  //       width: 80px;
-  //       height: 40px;
-  //       font-size: 16px;
-  //     }
-  //   }
-  // }
+  .transaction-cards {
+    .transaction-card {
+      height: auto;
+
+      .card-left {
+        width: 80px;
+        height: 40px;
+        font-size: 14px;
+        margin-right: 14px;
+        overflow: hidden;
+      }
+
+      .card-center {
+        font-size: 16px;
+
+        h4 {
+          font-size: 14px;
+          margin: 0 0 10px;
+        }
+      }
+
+      .price {
+        font-size: 16px;
+      }
+    }
+  }
 }
