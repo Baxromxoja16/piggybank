@@ -1,66 +1,69 @@
 <div class="login" [formGroup]="createForm" (ngSubmit)="onSubmit()">
   <div class="container">
     <form>
+      @if (!isLoading) {
+          @if(error) {
+            <div class="incorrect-field">
+            <p>{{error}}</p>
 
-      @if(error) {
-        <div class="incorrect-field">
-        <p>{{error}}</p>
+            <span (click)="close()">x</span>
+          </div>
+          }
 
-        <span (click)="close()">x</span>
-      </div>
+          <h1>Budgetify</h1>
+
+          <div class="form-field">
+            <label for="email" class="label">Email</label>
+            <input
+              type="email"
+              formControlName="email"
+              id="email"
+              appUp
+              class="input"
+            />
+          </div>
+
+          @if( createForm.controls['email'].errors?.['required'] &&
+          createForm.get('email')?.touched ) {
+
+          <span class="help-block">Required file is empty</span>
+
+          } @else if(createForm.controls['email'].errors?.['email'] &&
+          createForm.get('email')?.touched ){
+
+          <span class="help-block">Please enter a valid email address</span>
+
+          }
+
+          <div class="form-field">
+            <label for="password" class="label">Password</label>
+            <input
+              type="password"
+              formControlName="password"
+              id="password"
+              appUp
+              class="input"
+            />
+            <img
+              src="../../../assets/images/Eye-Icon-wsj93-300x300 1.png"
+              appPasswordToggle
+              class="eye"
+              alt="png"
+            />
+          </div>
+
+          @if( createForm.controls['password'].errors?.['required'] &&
+          createForm.get('password')?.touched ) {
+
+          <span class="help-block">Required file is empty</span>
+
+          }
+          <div class="form-field">
+            <input type="submit" [disabled]="!createForm.valid" id="btn" class="btn" value="Login" />
+          </div>
+      } @else {
+        <mat-spinner style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></mat-spinner>
       }
-
-      <h1>Budgetify</h1>
-
-      <div class="form-field">
-        <label for="email" class="label">Email</label>
-        <input
-          type="email"
-          formControlName="email"
-          id="email"
-          appUp
-          class="input"
-        />
-      </div>
-
-      @if( createForm.controls['email'].errors?.['required'] &&
-      createForm.get('email')?.touched ) {
-
-      <span class="help-block">Required file is empty</span>
-
-      } @else if(createForm.controls['email'].errors?.['email'] &&
-      createForm.get('email')?.touched ){
-
-      <span class="help-block">Please enter a valid email address</span>
-
-      }
-
-      <div class="form-field">
-        <label for="password" class="label">Password</label>
-        <input
-          type="password"
-          formControlName="password"
-          id="password"
-          appUp
-          class="input"
-        />
-        <img
-          src="../../../assets/images/Eye-Icon-wsj93-300x300 1.png"
-          appPasswordToggle
-          class="eye"
-          alt="png"
-        />
-      </div>
-
-      @if( createForm.controls['password'].errors?.['required'] &&
-      createForm.get('password')?.touched ) {
-
-      <span class="help-block">Required file is empty</span>
-
-      }
-      <div class="form-field">
-        <input type="submit" [disabled]="!createForm.valid" id="btn" class="btn" value="Login" />
-      </div>
     </form>
   </div>
 </div>

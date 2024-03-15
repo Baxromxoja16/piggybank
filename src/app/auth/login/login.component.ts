@@ -10,11 +10,12 @@ import {
 import { LoginService, UserLogin } from '../services/login.service';
 import { Router } from '@angular/router';
 import { Subscription, map, startWith, switchMap, timer } from 'rxjs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [UpDirective, PasswordToggleDirective, ReactiveFormsModule],
+  imports: [UpDirective, PasswordToggleDirective, ReactiveFormsModule, MatProgressSpinnerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -25,6 +26,8 @@ export class LoginComponent implements OnDestroy {
     password: new FormControl(null, [Validators.required]),
   });
 
+  isLoading = false;
+
   error: string | number = '';
 
   constructor(private loginService: LoginService, private router: Router) {}
@@ -33,10 +36,17 @@ export class LoginComponent implements OnDestroy {
     if (this.createForm.valid) {
       const enteredCredentials: UserLogin = this.createForm.value;
 
+      this.isLoading = true;
+
       const loginSubscription = this.loginService
         .login(enteredCredentials)
         .subscribe(() => {
+          this.isLoading = false;
+
           this.router.navigate(['/main']);
+        },
+        err => {
+          this.isLoading = false;
         });
 
       this.subscription.add(loginSubscription);
