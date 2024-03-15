@@ -1,28 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UpDirective } from '../../../auth/directives/up.directive';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Account, AccountService } from '../../services/account.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-create-account',
   standalone: true,
   imports: [
     UpDirective,
-    ReactiveFormsModule,
+    SharedModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,

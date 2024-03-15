@@ -1,26 +1,26 @@
 import { Component, OnDestroy, OnInit, WritableSignal, signal } from '@angular/core';
 import { Subscription } from 'rxjs'
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../../services/transaction.service';
 import { ITransaction } from '../transaction.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Account, AccountService } from '../../services/account.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogTransaction } from './dialog-transaction';
 import { MatDialog } from '@angular/material/dialog';
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-transaction-info',
   standalone: true,
   imports: [
     MatIconModule,
-    RouterModule,
+    SharedModule,
     MatProgressSpinnerModule,
     DatePipe,
-    CommonModule,
     MatButtonModule],
   templateUrl: './transaction-info.component.html',
   styleUrl: './transaction-info.component.scss'

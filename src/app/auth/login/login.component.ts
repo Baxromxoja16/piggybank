@@ -10,12 +10,12 @@ import {
 import { LoginService, UserLogin } from '../services/login.service';
 import { Router } from '@angular/router';
 import { Subscription, map, startWith, switchMap, timer } from 'rxjs';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [UpDirective, PasswordToggleDirective, ReactiveFormsModule, MatProgressSpinnerModule],
+  imports: [UpDirective, PasswordToggleDirective, ReactiveFormsModule, SharedModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

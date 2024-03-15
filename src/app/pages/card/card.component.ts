@@ -1,16 +1,16 @@
 import { Component, HostListener, OnDestroy, OnInit, WritableSignal } from '@angular/core';
 import { CreateAccountComponent } from './create-account/create-account.component';
 
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription, take, takeLast } from 'rxjs';
 import { Account, AccountService } from '../services/account.service';
-import { CommonModule } from '@angular/common';
 import { TransactionService } from '../services/transaction.service';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CreateAccountComponent, RouterModule, CommonModule],
+  imports: [CreateAccountComponent, SharedModule],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })

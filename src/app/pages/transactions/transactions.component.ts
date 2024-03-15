@@ -1,16 +1,15 @@
-import { Component, DoCheck, computed, OnDestroy, OnInit, signal, WritableSignal, Signal } from '@angular/core';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Component, OnDestroy, OnInit, WritableSignal } from '@angular/core';
+import { Router } from '@angular/router';
 import { TransactionService } from '../services/transaction.service';
 import { Account, AccountService } from '../services/account.service';
-import { finalize, interval, Subscription, takeWhile } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ITransaction } from './transaction.model';
-import { CommonModule } from '@angular/common';
-import { SearchFieldComponent } from '../../shared/components/search-field/search-field.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, RouterModule, SearchFieldComponent],
+  imports: [SharedModule],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.scss'
 })

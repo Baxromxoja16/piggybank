@@ -7,19 +7,19 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink, RouterModule } from '@angular/router';
-import { Account, AccountService } from '../../services/account.service';
+import { Router } from '@angular/router';
+import { AccountService } from '../../services/account.service';
 import { Subscription, tap } from 'rxjs';
 import { TransactionService } from '../../services/transaction.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogCancel } from './dialog-cencel.component';
 import { CategoryService, ICategory } from '../../services/category.service';
+import { SharedModule } from '../../../shared/shared.module';
 
 export interface IsError {
   message: string
@@ -40,9 +40,7 @@ export interface ITransaction {
   selector: 'app-transaction-create',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    RouterModule,
-    RouterLink,
+    SharedModule,
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,

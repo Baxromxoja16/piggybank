@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAnimationsExampleDialog } from './dialog-animations';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-account-info',
@@ -15,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   imports: [
     MatIconModule,
     MatButtonModule,
-    RouterModule,
+    SharedModule,
     MatProgressSpinnerModule,
   ],
   templateUrl: './account-info.component.html',
