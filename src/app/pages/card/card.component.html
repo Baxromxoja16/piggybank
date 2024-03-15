@@ -1,6 +1,6 @@
 <div class="cards-page">
   <div class="cards">
-    @if (accounts().length > 0) {
+    @if (!isLoading && accounts().length > 0) {
       @for (account of accounts(); track account.balance) {
         <div class="card" (click)="onSwitchAccount(account)"
           [ngClass]="account._id === switchAccount()._id ? 'active' : ''">
@@ -12,8 +12,11 @@
           >Details</a>
         </div>
       }
-    } @else {
+    }
+    @else if(accounts().length <= 0 === !isLoading){
       <h2 style="color: red;">You don't have any accounts, <br> Please add accounts</h2>
+    } @else {
+      <mat-spinner></mat-spinner>
     }
     <a routerLink="/main/create-account" class="card account">
       <span class="add-account">+</span>
