@@ -20,6 +20,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   unfiltered: WritableSignal<ITransaction[]> = this.transactionService.unfiltered
 
+  isLoading = false;
+
   account: WritableSignal<Account> = this.accountService.switchAccountSig
   oldAccount: WritableSignal<Account> = this.accountService.oldAccountSig
 
@@ -34,7 +36,13 @@ export class TransactionsComponent implements OnInit, OnDestroy {
 
   private checkAccount() {
     if (this.account()._id) {
-      const transactionSubs = this.transactionService.getTransactions().subscribe();
+      this.isLoading = true;
+      const transactionSubs = this.transactionService.getTransactions().subscribe(() => {
+        this.isLoading = false;
+      },
+      (err) => {
+        this.isLoading = false;
+      });
       this.subscription.add(transactionSubs);
     } else {
       setTimeout(() => {

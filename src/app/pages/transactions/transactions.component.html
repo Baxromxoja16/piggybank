@@ -27,7 +27,7 @@
   </div>
 
   <div class="transaction-cards">
-    @if (transactions().length > 0) {
+    @if (!isLoading && transactions().length > 0) {
       @for (transaction of transactions(); track $index) {
         <div class="transaction-card" (click)="toInfo(transaction)">
             <button class="btn card-left">{{transaction.categories[0] || 'Home'}}</button>
@@ -51,8 +51,10 @@
               class="price red">{{transaction.amount}}{{transaction.accountId === account()._id ? account().sign : oldAccount().sign}}</span>
         </div>
       }
-    } @else {
+    } @else if(transactions().length <= 0 === !isLoading) {
       <h1>You don't have any transactions. Please, add a transaction</h1>
+    } @else {
+      <mat-spinner></mat-spinner>
     }
   </div>
 </div>
