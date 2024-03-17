@@ -72,18 +72,25 @@
   transform: translateX(500%);
   transition: .5s;
 }
+.mat-mdc-menu-trigger {
+  display: none;
+}
 
 @media (max-width: 1400px) {
   .account {
     display: none;
   }
-  .mat-icon_btn {
+  .mat-icon_btn,
+  .mat-mdc-menu-trigger {
     display: block;
   }
 }
 @media (max-width: 900px) {
   .logo {
     min-width: 250px;
+  }
+  .menu {
+    display: none;
   }
 }
 @media (max-width: 640px) {
